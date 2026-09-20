@@ -1,0 +1,7 @@
+name = "qccg_audit"
+version = "0.1.0"
+defaultTargets = ["QCCG"]
+
+[[lean_lib]]
+name = "QCCG"
+moreLeanArgs = ["-DwarningAsError=true"]

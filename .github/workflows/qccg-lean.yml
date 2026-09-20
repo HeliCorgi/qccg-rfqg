@@ -1,0 +1,105 @@
+name: QCCG Lean gluing proof
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "qccg/lean/**"
+      - ".github/workflows/qccg-lean.yml"
+  pull_request:
+    paths:
+      - "qccg/lean/**"
+      - ".github/workflows/qccg-lean.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  gluing:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install -r requirements.txt
+      - name: Install pinned Lean
+        uses: leanprover/lean-action@50fcf42d2e460296f1a34b402e990d1b24f8b596
+        with:
+          lake-package-directory: qccg/lean
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'false'
+          use-github-cache: 'false'
+      - name: Assert provenance cleanliness before audit
+        run: |
+          status="$(git status --porcelain)"
+          printf '%s\n' "$status"
+          test -z "$status"
+
+      - name: Collect axiom-free TheoryGate evidence
+        run: |
+          theorygate evidence lean \
+            --project qccg/lean \
+            --id qccg-slab-gluing-lean \
+            --obligation STRICT_SLAB_GLUE_INCIDENCE_LEMMA \
+            --import QCCG \
+            --theorem QCCG.interface_incidence_two \
+            --theorem QCCG.interface_remains_manifold_codim_one \
+            --theorem QCCG.left_external_incidence_preserved \
+            --theorem QCCG.right_external_incidence_preserved \
+            --theorem QCCG.two_consecutive_layers \
+            --theorem QCCG.interface_not_external_after_gluing \
+            --output /tmp/qccg-gluing-evidence.json \
+            --no-axioms
+          mkdir -p artifacts/qccg-lean
+          cp /tmp/qccg-gluing-evidence.json artifacts/qccg-lean/gluing-evidence.json
+          cat artifacts/qccg-lean/gluing-evidence.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          ev = json.loads(Path("artifacts/qccg-lean/gluing-evidence.json").read_text())
+          assert ev["status"] == "PASS", ev
+          PY
+      - name: Collect axiom-free finite-history evidence
+        run: |
+          theorygate evidence lean \
+            --project qccg/lean \
+            --id qccg-finite-history-gluing-lean \
+            --obligation STRICT_FINITE_HISTORY_GLUE_LEMMA \
+            --import QCCG \
+            --theorem QCCG.finite_history_interfaces_two \
+            --theorem QCCG.finite_history_no_external_interfaces \
+            --output /tmp/qccg-finite-history-evidence.json \
+            --no-axioms
+          cp /tmp/qccg-finite-history-evidence.json artifacts/qccg-lean/finite-history-evidence.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          ev = json.loads(Path("artifacts/qccg-lean/finite-history-evidence.json").read_text())
+          assert ev["status"] == "PASS", ev
+          PY
+
+      - name: Promote only the formal gluing claims
+        run: |
+          theorygate check qccg/theorygate.yaml \
+            --evidence artifacts/qccg-lean/gluing-evidence.json \
+            --evidence artifacts/qccg-lean/finite-history-evidence.json \
+            --require QCCG_FORMAL_FINITE_HISTORY_GLUE
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: qccg-lean-gluing-${{ github.sha }}
+          path: artifacts/qccg-lean/
+          if-no-files-found: warn
+          retention-days: 14

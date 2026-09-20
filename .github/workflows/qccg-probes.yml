@@ -1,0 +1,176 @@
+name: QCCG focused probes
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "qccg/**"
+      - ".github/workflows/qccg-probes.yml"
+  pull_request:
+    paths:
+      - "qccg/**"
+      - ".github/workflows/qccg-probes.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: time-local-slice-transfer
+            script: qccg/run_time_local_slice_transfer_toy.py
+            output: time-local-transfer-evidence.json
+          - name: cdt-vertex-move
+            script: qccg/run_cdt_move4_audit.py
+            output: cdt-move4-evidence.json
+          - name: cdt-connectivity-move
+            script: qccg/run_cdt_move46_audit.py
+            output: cdt-move46-evidence.json
+          - name: cdt-selfdual-move
+            script: qccg/run_cdt_move33_audit.py
+            output: cdt-move33-evidence.json
+          - name: cdt-mixed-connectivity
+            script: qccg/run_cdt_mixed_connectivity_toy.py
+            output: cdt-mixed-connectivity-evidence.json
+          - name: cdt-connectivity-scaling
+            script: qccg/run_cdt_scalable_connectivity_scan.py
+            output: cdt-connectivity-scaling-evidence.json
+          - name: cdt-move-invariants
+            script: qccg/run_cdt_move_invariant_audit.py
+            output: cdt-move-invariant-evidence.json
+          - name: lattice-ward-scaling
+            script: qccg/run_lattice_ward_scaling_audit.py
+            output: lattice-ward-evidence.json
+          - name: tensor-cubic-continuum
+            script: qccg/run_tensor_cubic_continuum_limit.py
+            output: tensor-cubic-continuum-evidence.json
+          - name: pachner-cobordism
+            script: qccg/run_pachner_cobordism_audit.py
+            output: pachner-cobordism-evidence.json
+          - name: pachner-composition
+            script: qccg/run_pachner_cobordism_composition.py
+            output: pachner-composition-evidence.json
+          - name: causal-14-slab
+            script: qccg/run_causal_refinement_slab_audit.py
+            output: causal-14-slab-evidence.json
+          - name: causal-23-slab
+            script: qccg/run_causal_23_slab_audit.py
+            output: causal-23-slab-evidence.json
+          - name: strict-slab-composition
+            script: qccg/run_strict_slab_composition_audit.py
+            output: strict-slab-composition-evidence.json
+          - name: closed-slice-slabs
+            script: qccg/run_closed_slice_slab_audit.py
+            output: closed-slice-slab-evidence.json
+          - name: generic-slab-scan
+            script: qccg/run_generic_closed_slice_slab_scan.py
+            output: generic-slab-scan-evidence.json
+          - name: tensor-cubic-stress
+            script: qccg/run_tensor_cubic_stress_audit.py
+            output: tensor-cubic-stress-evidence.json
+          - name: cubic-coefficient-selection
+            script: qccg/run_cubic_coefficient_selection_audit.py
+            output: cubic-coefficient-selection-evidence.json
+          - name: qccg-cdt-transfer-match
+            script: qccg/run_qccg_cdt_transfer_match.py
+            output: qccg-cdt-transfer-match-evidence.json
+          - name: qccg-cdt-kinetic-coefficient
+            script: qccg/run_qccg_cdt_kinetic_coefficient_audit.py
+            output: qccg-cdt-kinetic-coefficient-evidence.json
+          - name: qccg-cdt-affine-kinetic
+            script: qccg/run_qccg_cdt_affine_kinetic_audit.py
+            output: qccg-cdt-affine-kinetic-evidence.json
+          - name: qccg-regge-curvature-rates
+            script: qccg/run_qccg_regge_curvature_rate_audit.py
+            output: qccg-regge-curvature-rate-evidence.json
+          - name: qccg-regge-curvature-scan
+            script: qccg/run_qccg_curvature_weight_scan.py
+            output: qccg-regge-curvature-scan-evidence.json
+          - name: qccg-curvature-critical-line
+            script: qccg/run_qccg_curvature_critical_line.py
+            output: qccg-curvature-critical-line-evidence.json
+          - name: qccg-curvature-weighted-time-exploration
+            script: qccg/run_qccg_curvature_weighted_time_exploration.py
+            output: qccg-curvature-weighted-time-exploration-evidence.json
+          - name: qccg-curvature-weighted-time-confirmation
+            script: qccg/run_qccg_curvature_weighted_time_confirmation.py
+            output: qccg-curvature-weighted-time-confirmation-evidence.json
+            expected_failure: true
+          - name: qccg-fixed-volume-curvature-thermalization
+            script: qccg/run_qccg_fixed_volume_curvature_thermalization.py
+            output: qccg-fixed-volume-curvature-thermalization-evidence.json
+          - name: qccg-equilibrated-cdt-confirmation
+            script: qccg/run_qccg_equilibrated_cdt_confirmation.py
+            output: qccg-equilibrated-cdt-confirmation-evidence.json
+            expected_failure: true
+          - name: qccg-equilibrated-critical-line
+            script: qccg/run_qccg_equilibrated_critical_line.py
+            output: qccg-equilibrated-critical-line-evidence.json
+          - name: qccg-equilibrated-critical-confirmation
+            script: qccg/run_qccg_equilibrated_critical_confirmation.py
+            output: qccg-equilibrated-critical-confirmation-evidence.json
+            expected_failure: true
+          - name: qccg-cdt-coefficient-bootstrap
+            script: qccg/run_qccg_cdt_coefficient_uncertainty.py
+            output: qccg-cdt-coefficient-bootstrap-evidence.json
+          - name: qccg-statistical-cdt-confirmation
+            script: qccg/run_qccg_statistical_cdt_confirmation.py
+            output: qccg-statistical-cdt-confirmation-evidence.json
+          - name: qccg-cdt-potential-drift
+            script: qccg/run_qccg_cdt_potential_drift_audit.py
+            output: qccg-cdt-potential-drift-evidence.json
+          - name: qccg-cdt-diffusion-bridge
+            script: qccg/run_qccg_cdt_diffusion_bridge.py
+            output: qccg-cdt-diffusion-bridge-evidence.json
+          - name: qccg-large-volume-diffusion
+            script: qccg/run_qccg_large_volume_diffusion_scan.py
+            output: qccg-large-volume-diffusion-evidence.json
+          - name: qccg-mesoscopic-clt
+            script: qccg/run_qccg_mesoscopic_clt_audit.py
+            output: qccg-mesoscopic-clt-evidence.json
+          - name: qccg-time-evolved-volume-kernel
+            script: qccg/run_qccg_time_evolved_volume_kernel.py
+            output: qccg-time-evolved-volume-kernel-evidence.json
+          - name: qccg-cdt-structural-action
+            script: qccg/run_qccg_cdt_structural_action_audit.py
+            output: qccg-cdt-structural-action-evidence.json
+          - name: cdt-frg-reuter-anchor
+            script: qccg/run_cdt_frg_anchor_audit.py
+            output: cdt-frg-reuter-anchor-evidence.json
+    name: ${{ matrix.name }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --upgrade pip
+      - run: python -m pip install -r requirements.txt
+      - name: Run probe
+        run: |
+          mkdir -p artifacts/qccg-probes
+          set +e
+          python "${{ matrix.script }}" --out "artifacts/qccg-probes/${{ matrix.output }}"
+          rc=$?
+          set -e
+          if [ "$rc" -eq 0 ]; then
+            exit 0
+          fi
+          if [ "${{ matrix.expected_failure }}" = "true" ]; then
+            echo "::notice::Expected research failure retained for ${{ matrix.name }} (exit $rc)."
+            exit 0
+          fi
+          exit "$rc"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qccg-probe-${{ matrix.name }}
+          path: artifacts/qccg-probes/

@@ -1,0 +1,14 @@
+# Python packaging / test artifacts
+build/
+dist/
+*.egg-info/
+__pycache__/
+.pytest_cache/
+*.pyc
+
+# Local virtual environments
+.venv/
+venv/
+
+# Generated audit outputs
+artifacts/
