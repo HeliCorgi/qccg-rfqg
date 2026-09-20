@@ -1,0 +1,43 @@
+name: QCCG generator-transfer normalization
+
+on:
+  pull_request:
+    paths:
+      - "qccg/run_qccg_generator_transfer_normalization.py"
+      - "qccg/run_qccg_equilibrated_critical_line.py"
+      - "qccg/run_qccg_cdt_coefficient_uncertainty.py"
+      - "qccg/theorygate.yaml"
+      - "requirements.txt"
+      - ".github/workflows/qccg-generator-transfer.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  normalization:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install -r requirements.txt
+      - name: Run generator-to-transfer normalization audit
+        run: |
+          mkdir -p artifacts/qccg-generator-transfer
+          python qccg/run_qccg_generator_transfer_normalization.py \
+            --out artifacts/qccg-generator-transfer/evidence.json
+      - name: Validate TheoryGate model
+        run: theorygate validate qccg/theorygate.yaml
+      - name: Promote only the normalization diagnostic
+        run: |
+          theorygate check qccg/theorygate.yaml \
+            --evidence artifacts/qccg-generator-transfer/evidence.json \
+            --require QCCG_CDT_TRANSFER_NORMALIZATION_DIAGNOSTIC
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qccg-generator-transfer-normalization
+          path: artifacts/qccg-generator-transfer/
