@@ -39,6 +39,8 @@ import sympy as sp
 
 import run_qccg_symmetric_transfer_extraction as sym
 import run_qccg_curvature_weighted_time_exploration as explore
+import run_qccg_equilibrated_critical_line as eqcrit
+import run_qccg_large_volume_diffusion_scan as base
 import run_qccg_time_evolved_volume_kernel as tev
 import run_time_local_slice_transfer_toy as qslice
 
@@ -70,6 +72,34 @@ def evidence(eid, obligation, status, note, **metadata):
         "artifact": "qccg/run_qccg_finite_time_equilibrium_transfer.py",
         "note": note,
         "metadata": metadata,
+    }
+
+
+def critical_line_and_affine_n0():
+    """Select the critical line and independently determine the affine n0."""
+    samples, _meta, _old = eqcrit.thermal_samples()
+    kV, residual = eqcrit.solve_kv(samples)
+    kR = eqcrit.KAPPA_R
+
+    rows = []
+    for N, Ss in sorted(samples.items()):
+        vals = [eqcrit.local_moments(base.counts(S), kV) for S in Ss]
+        rows.append({
+            "N3": N,
+            "variance_rate": sum(v[1] for v in vals)/len(vals),
+        })
+    xs = [float(r["N3"]) for r in rows]
+    ys = [r["variance_rate"] for r in rows]
+    D, intercept, r2, _pred = eqcrit.linear_fit(xs, ys)
+    return {
+        "kappa_R": kR,
+        "kappa_V": kV,
+        "zero_drift_residual": residual,
+        "D": D,
+        "intercept": intercept,
+        "n0": -intercept/D,
+        "r2": r2,
+        "rows": rows,
     }
 
 
@@ -387,7 +417,11 @@ def occupancy_summary(n3_series, n0_series):
 
 
 def main():
-    kR, kV, critical_residual = sym.critical_line()
+    affine = critical_line_and_affine_n0()
+    kR = affine["kappa_R"]
+    kV = affine["kappa_V"]
+    critical_residual = affine["zero_drift_residual"]
+    independent_n0 = affine["n0"]
     rates = explore.weighted_rates(kR, kV)
 
     rng = random.Random(SEED)
@@ -408,14 +442,16 @@ def main():
         vols, J = joint_counts(n3_series, lag)
         asym = joint_asymmetry(J)
         M, pi = direct_symmetric_kernel(vols, J, n3_series)
-        best, fits = fit_scan_n0(vols, M)
+        best = generic_cdt_fit(
+            vols, M, (independent_n0,),
+            boundary_margin=4, max_sep=6, min_rows=45
+        )
 
         row = {
             "lag_steps": lag,
             "tau": lag * SAMPLE_DT,
             "joint_asymmetry": asym,
             "best_fit": best,
-            "n_fits": len(fits),
             "occupied_volume_count": len(occupied),
         }
         row_pass = bool(
@@ -439,7 +475,7 @@ def main():
     residue = residue_modulation(n3_series)
     blocked_rows = []
     blocked_selected = None
-    blocked_n0_scan = tuple(-10.0 + 0.5*i for i in range(41))
+    blocked_n0_scan = (independent_n0,)
     for lag in LAG_STEPS:
         bvols, bJ, bM = blocked_joint_kernel(n3_series, lag, width=3)
         basym = joint_asymmetry(bJ)
@@ -476,6 +512,7 @@ def main():
             "kappa_V": kV,
             "zero_drift_residual": critical_residual,
             "rates": rates,
+            "independent_affine_kinetic": affine,
         },
         "trajectory": {
             "volume_window": [VOLUME_MIN, VOLUME_MAX],
@@ -530,7 +567,7 @@ def main():
                 "qccg-block3-transfer-diagnostic",
                 "QCCG_BLOCK3_TRANSFER_DIAGNOSTIC",
                 "PASS" if blocked_pass else "FAIL",
-                "A single width-3 real-space blocking step is applied to the same equilibrium volume trajectory. Improvement to a CDT-like symmetric kernel is treated only as evidence that the period-3 structure is a removable lattice artifact candidate, not as the unblocked physical transfer extraction.",
+                "A single width-3 real-space blocking step is applied to the same equilibrium volume trajectory. The CDT fit uses the independently measured affine-generator n0 rather than scanning n0, so improvement cannot be obtained by pushing the offset to a fit boundary. This remains a lattice-artifact diagnostic, not the unblocked physical transfer extraction.",
                 residue_modulation=residue,
                 selected=blocked_selected,
                 lag_scan=blocked_rows,
