@@ -89,9 +89,10 @@ SOURCES = [
 ]
 
 
-def evidence(eid, status, note, **metadata):
+def evidence(eid, obligation, status, note, **metadata):
     return {
         "id": eid,
+        "obligation": obligation,
         "status": status,
         "engine": "qccg-symmetric-transfer-extraction",
         "artifact": "qccg/run_qccg_symmetric_transfer_extraction.py",
@@ -612,6 +613,7 @@ def main():
         "evidence": [
             evidence(
                 "qccg-dense-volume-generator",
+                "QCCG_DENSE_VOLUME_GENERATOR_CONSTRUCTED",
                 "PASS" if len(VOLUMES) >= 20 else "FAIL",
                 "A dense curvature-equilibrated QCCG macro generator is constructed over consecutive spatial volumes using averaged microscopic weighted Pachner rates.",
                 volumes=list(VOLUMES),
@@ -627,6 +629,7 @@ def main():
             ),
             evidence(
                 "qccg-n3-instantaneous-markov-reduction-rejected",
+                "QCCG_N3_INSTANTANEOUS_MARKOV_REDUCTION_REJECTED",
                 "PASS" if n3_instantaneous_rejected else "NOT_APPLICABLE",
                 "The instantaneous N3-only macro generator violates a Kolmogorov cycle condition: three 2<->3 unit-volume steps and one 1<->4 three-volume step do not define the same coarse potential difference. N3 alone is therefore rejected as an instantaneous Markov state at this scale; hidden N0/curvature or finite-time elimination is required.",
                 cycle_affinity=cycle,
@@ -637,6 +640,7 @@ def main():
             ),
             evidence(
                 "qccg-reversible-projection-size",
+                "QCCG_REVERSIBLE_PROJECTION_SIZE_DIAGNOSTIC",
                 "PASS" if not reversible_ok else "NOT_APPLICABLE",
                 "Because the N3-only instantaneous reduction is non-Markov, the size of the nearest reversible projection is retained explicitly rather than treated as microscopic evidence.",
                 reversible_projection_rms_relative=proj_rms,
@@ -645,6 +649,7 @@ def main():
             ),
             evidence(
                 "qccg-mesoscopic-reversible-transfer-diagnostic",
+                "QCCG_MESOSCOPIC_REVERSIBLE_TRANSFER_DIAGNOSTIC",
                 "PASS" if projected_transfer_pass else "FAIL",
                 "After explicit reversible projection, increasing the time block tests whether hidden-variable/discrete-jump structure Gaussianizes into the finite-volume CDT transfer form. The first preregistered mesoscopic block satisfying fit quality, kinetic normalization, and positive delta/lambda is recorded.",
                 base_tau_ref=tau_ref,
@@ -657,6 +662,7 @@ def main():
             ),
             evidence(
                 "qccg-direct-equilibrium-transfer-open",
+                "QCCG_FINITE_TIME_EQUILIBRIUM_TRANSFER_EXTRACTION",
                 "OPEN",
                 "The successful reversible-projection diagnostic is not yet a direct physical QCCG transfer extraction because the instantaneous N3 projection required an O(1) reversibility correction. A finite-time equilibrium two-slice kernel, or an enlarged (N3,N0/curvature) coarse state followed by controlled elimination, is still required.",
                 next_step=(
