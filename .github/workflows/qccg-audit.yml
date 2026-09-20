@@ -1,0 +1,455 @@
+name: QCCG bridge audit
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "qccg/**"
+      - "requirements.txt"
+      - ".github/workflows/qccg-audit.yml"
+  pull_request:
+    paths:
+      - "qccg/**"
+      - "requirements.txt"
+      - ".github/workflows/qccg-audit.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  qccg:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --upgrade pip
+      - run: python -m pip install -r requirements.txt
+
+      - name: Run scoped QCCG calculation
+        run: |
+          python qccg/run_quadratic_audit.py \
+            --out artifacts/qccg/evidence.json \
+            --summary artifacts/qccg/summary.json
+
+      - name: Derive quadratic Hessian from explicit finite-Weyl parent
+        run: |
+          python qccg/run_parent_hamiltonian_audit.py \
+            --out artifacts/qccg/parent-evidence.json
+
+      - name: Audit Lorentz-universality obstruction and bare-cone repair
+        run: |
+          python qccg/run_lorentz_audit.py \
+            --out artifacts/qccg/lorentz-evidence.json
+
+      - name: Audit finite and quadratic scaling unitarity
+        run: |
+          python qccg/run_unitarity_audit.py \
+            --out artifacts/qccg/unitarity-evidence.json
+
+      - name: Audit interacting scaling-isometry architecture
+        run: |
+          python qccg/run_interacting_scaling_toy.py \
+            --out artifacts/qccg/interacting-scaling-evidence.json
+
+      - name: Audit graph-changing scaling isometry
+        run: |
+          python qccg/run_graph_change_scaling_toy.py \
+            --out artifacts/qccg/graph-change-scaling-evidence.json
+
+      - name: Audit refinement-path coherence
+        run: |
+          python qccg/run_refinement_coherence_toy.py \
+            --out artifacts/qccg/refinement-coherence-evidence.json
+
+      - name: Audit linearized spin-2 constraint target
+        run: |
+          python qccg/run_linearized_constraint_audit.py \
+            --out artifacts/qccg/constraint-evidence.json
+
+      - name: Reject naive commuting-projector nonlinear completion
+        run: |
+          python qccg/run_nonlinear_constraint_diagnostic.py \
+            --out artifacts/qccg/nonlinear-constraint-evidence.json
+
+      - name: Audit cellulation-liquid vacuum
+        run: |
+          python qccg/run_cellulation_liquid_audit.py \
+            --out artifacts/qccg/cellulation-evidence.json
+
+      - name: Calibrate manifold-likeness diagnostics
+        run: |
+          python qccg/run_manifold_diagnostic_audit.py \
+            --out artifacts/qccg/manifold-diagnostic-evidence.json
+
+      - name: Audit explicit 4D Pachner cellulation ensemble
+        run: |
+          python qccg/run_pachner_ensemble_audit.py \
+            --out artifacts/qccg/pachner-evidence.json
+
+      - name: Try Regge-weighted Pachner repair
+        run: |
+          python qccg/run_weighted_pachner_scan.py \
+            --out artifacts/qccg/weighted-pachner-evidence.json
+
+      - name: Audit causal foliated 4D architecture
+        run: |
+          python qccg/run_causal_foliation_audit.py \
+            --out artifacts/qccg/causal-foliation-evidence.json
+
+      - name: Audit reversible causal local moves
+        run: |
+          python qccg/run_causal_move_dynamics_toy.py \
+            --out artifacts/qccg/causal-move-evidence.json
+
+      - name: Scan finite causal move ensemble geometry
+        run: |
+          python qccg/run_causal_move_ensemble_scan.py \
+            --out artifacts/qccg/causal-ensemble-evidence.json
+
+      - name: Try vertex-changing causal column repair
+        run: |
+          python qccg/run_causal_column_refinement_scan.py \
+            --out artifacts/qccg/causal-column-evidence.json
+
+      - name: Audit time-local evolving-slice transfer
+        run: |
+          python qccg/run_time_local_slice_transfer_toy.py \
+            --out artifacts/qccg/time-local-transfer-evidence.json
+
+      - name: Audit local vertex-changing 4D causal move
+        run: |
+          python qccg/run_cdt_move4_audit.py \
+            --out artifacts/qccg/cdt-move4-evidence.json
+
+      - name: Audit local connectivity-changing 4D causal move
+        run: |
+          python qccg/run_cdt_move46_audit.py \
+            --out artifacts/qccg/cdt-move46-evidence.json
+
+      - name: Audit local self-dual 4D causal move
+        run: |
+          python qccg/run_cdt_move33_audit.py \
+            --out artifacts/qccg/cdt-move33-evidence.json
+
+      - name: Audit spatial Pachner theorem applicability
+        run: |
+          python qccg/run_spatial_pachner_theorem_audit.py \
+            --out artifacts/qccg/spatial-pachner-evidence.json
+
+      - name: Audit mixed fixed-boundary CDT connectivity
+        run: |
+          python qccg/run_cdt_mixed_connectivity_toy.py \
+            --out artifacts/qccg/cdt-mixed-connectivity-evidence.json
+
+      - name: Scan finite-size CDT connectivity
+        run: |
+          python qccg/run_cdt_scalable_connectivity_scan.py \
+            --out artifacts/qccg/cdt-connectivity-scaling-evidence.json
+
+      - name: Audit causal move conserved invariants
+        run: |
+          python qccg/run_cdt_move_invariant_audit.py \
+            --out artifacts/qccg/cdt-move-invariant-evidence.json
+
+      - name: Audit local 4D Pachner cobordisms
+        run: |
+          python qccg/run_pachner_cobordism_audit.py \
+            --out artifacts/qccg/pachner-cobordism-evidence.json
+
+      - name: Audit Pachner cobordism composition
+        run: |
+          python qccg/run_pachner_cobordism_composition.py \
+            --out artifacts/qccg/pachner-composition-evidence.json
+
+      - name: Audit strict causal spatial 1-to-4 slab
+        run: |
+          python qccg/run_causal_refinement_slab_audit.py \
+            --out artifacts/qccg/causal-14-slab-evidence.json
+
+      - name: Audit strict causal spatial 2-to-3 slab
+        run: |
+          python qccg/run_causal_23_slab_audit.py \
+            --out artifacts/qccg/causal-23-slab-evidence.json
+
+      - name: Audit strict causal slab composition
+        run: |
+          python qccg/run_strict_slab_composition_audit.py \
+            --out artifacts/qccg/strict-slab-composition-evidence.json
+
+      - name: Embed strict slabs into closed S3 slice transitions
+        run: |
+          python qccg/run_closed_slice_slab_audit.py \
+            --out artifacts/qccg/closed-slice-slab-evidence.json
+
+      - name: Stress generic closed-S3 slab builders
+        run: |
+          python qccg/run_generic_closed_slice_slab_scan.py \
+            --out artifacts/qccg/generic-slab-scan-evidence.json
+
+      - name: Detect and repair missing cubic interaction
+        run: |
+          python qccg/run_cubic_interaction_audit.py \
+            --out artifacts/qccg/cubic-evidence.json
+
+      - name: Refine cubic repair to derivative interaction
+        run: |
+          python qccg/run_derivative_cubic_audit.py \
+            --out artifacts/qccg/derivative-cubic-evidence.json
+
+      - name: Audit finite structure-function constraint toy
+        run: |
+          python qccg/run_structure_function_toy.py \
+            --out artifacts/qccg/structure-function-evidence.json
+
+      - name: Audit emergent noncentral structure functions on code subspace
+        run: |
+          python qccg/run_emergent_structure_function_audit.py \
+            --out artifacts/qccg/emergent-structure-evidence.json
+
+      - name: Audit smeared 1D HDA code subspace
+        run: |
+          python qccg/run_1d_hda_code_audit.py \
+            --out artifacts/qccg/hda-1d-evidence.json
+
+      - name: Extract QCCG RFQG bridge observables
+        run: |
+          python qccg/run_rg_bridge_audit.py \
+            --out artifacts/qccg/rg-bridge-evidence.json
+
+      - name: Run QCCG to CDT transfer matching
+        run: |
+          python qccg/run_qccg_cdt_transfer_match.py \
+            --out artifacts/qccg/qccg-cdt-transfer-match-evidence.json
+
+      - name: Audit QCCG CDT diffusion mechanism
+        run: |
+          python qccg/run_qccg_cdt_diffusion_bridge.py \
+            --out artifacts/qccg/qccg-cdt-diffusion-bridge-evidence.json
+
+      - name: Measure QCCG CDT kinetic coefficient stability
+        run: |
+          python qccg/run_qccg_cdt_kinetic_coefficient_audit.py \
+            --out artifacts/qccg/qccg-cdt-kinetic-coefficient-evidence.json
+
+      - name: Diagnose QCCG CDT potential sector
+        run: |
+          python qccg/run_qccg_cdt_potential_drift_audit.py \
+            --out artifacts/qccg/qccg-cdt-potential-drift-evidence.json
+
+      - name: Run large-volume QCCG diffusion scan
+        run: |
+          python qccg/run_qccg_large_volume_diffusion_scan.py \
+            --out artifacts/qccg/qccg-large-volume-diffusion-evidence.json
+
+      - name: Audit QCCG mesoscopic Gaussianization
+        run: |
+          python qccg/run_qccg_mesoscopic_clt_audit.py \
+            --out artifacts/qccg/qccg-mesoscopic-clt-evidence.json
+
+      - name: Audit state-dependent QCCG volume kernel
+        run: |
+          python qccg/run_qccg_time_evolved_volume_kernel.py \
+            --out artifacts/qccg/qccg-time-evolved-volume-kernel-evidence.json
+
+      - name: Audit structural QCCG CDT action match
+        run: |
+          python qccg/run_qccg_cdt_structural_action_audit.py \
+            --out artifacts/qccg/qccg-cdt-structural-action-evidence.json
+
+      - name: Audit CDT FRG and Reuter literature anchors
+        run: |
+          python qccg/run_cdt_frg_anchor_audit.py \
+            --out artifacts/qccg/cdt-frg-reuter-anchor-evidence.json
+
+      - name: Run exact finite-state RG blocking toy
+        run: |
+          python qccg/run_exact_rg_toy.py \
+            --out artifacts/qccg/exact-rg-evidence.json
+
+      - name: Audit Feshbach effective-kernel coarse graining
+        run: |
+          python qccg/run_feshbach_rg_toy.py \
+            --out artifacts/qccg/feshbach-evidence.json
+
+      - name: Audit cellulation-sector exact coarse graining
+        run: |
+          python qccg/run_cellulation_rg_toy.py \
+            --out artifacts/qccg/cellulation-rg-evidence.json
+
+      - name: Calibrate GR cubic Ward target
+        run: |
+          python qccg/run_gr_cubic_ward_target.py \
+            --out artifacts/qccg/gr-cubic-ward-evidence.json
+
+      - name: Audit finite-Weyl tensor cubic Ward construction
+        run: |
+          python qccg/run_tensor_cubic_lattice_audit.py \
+            --out artifacts/qccg/tensor-cubic-evidence.json
+
+      - name: Stress tensor cubic across multiple kinematics
+        run: |
+          python qccg/run_tensor_cubic_stress_audit.py \
+            --out artifacts/qccg/tensor-cubic-stress-evidence.json
+
+      - name: Diagnose on-shell cubic Ward underdetermination
+        run: |
+          python qccg/run_cubic_coefficient_selection_audit.py \
+            --out artifacts/qccg/cubic-coefficient-selection-evidence.json
+
+      - name: Audit generic lattice Ward restoration rate
+        run: |
+          python qccg/run_lattice_ward_scaling_audit.py \
+            --out artifacts/qccg/lattice-ward-evidence.json
+
+      - name: Audit operator-level tensor cubic continuum limit
+        run: |
+          python qccg/run_tensor_cubic_continuum_limit.py \
+            --out artifacts/qccg/tensor-cubic-continuum-evidence.json
+
+      - name: Audit soft-graviton universal coupling target
+        run: |
+          python qccg/run_soft_graviton_audit.py \
+            --out artifacts/qccg/soft-graviton-evidence.json
+
+      - name: Validate audit model
+        run: theorygate validate qccg/theorygate.yaml
+
+      - name: Require only the scoped quadratic claim
+        run: |
+          theorygate check qccg/theorygate.yaml \
+            --evidence artifacts/qccg/evidence.json \
+            --evidence artifacts/qccg/parent-evidence.json \
+            --evidence artifacts/qccg/lorentz-evidence.json \
+            --evidence artifacts/qccg/unitarity-evidence.json \
+            --evidence artifacts/qccg/interacting-scaling-evidence.json \
+            --evidence artifacts/qccg/graph-change-scaling-evidence.json \
+            --evidence artifacts/qccg/refinement-coherence-evidence.json \
+            --evidence artifacts/qccg/constraint-evidence.json \
+            --evidence artifacts/qccg/nonlinear-constraint-evidence.json \
+            --evidence artifacts/qccg/spatial-pachner-evidence.json \
+            --evidence artifacts/qccg/cellulation-evidence.json \
+            --evidence artifacts/qccg/manifold-diagnostic-evidence.json \
+            --evidence artifacts/qccg/pachner-evidence.json \
+            --evidence artifacts/qccg/weighted-pachner-evidence.json \
+            --evidence artifacts/qccg/causal-foliation-evidence.json \
+            --evidence artifacts/qccg/causal-move-evidence.json \
+            --evidence artifacts/qccg/causal-ensemble-evidence.json \
+            --evidence artifacts/qccg/causal-column-evidence.json \
+            --evidence artifacts/qccg/time-local-transfer-evidence.json \
+            --evidence artifacts/qccg/cdt-move4-evidence.json \
+            --evidence artifacts/qccg/cdt-move46-evidence.json \
+            --evidence artifacts/qccg/cdt-move33-evidence.json \
+            --evidence artifacts/qccg/cdt-mixed-connectivity-evidence.json \
+            --evidence artifacts/qccg/cdt-connectivity-scaling-evidence.json \
+            --evidence artifacts/qccg/cdt-move-invariant-evidence.json \
+            --evidence artifacts/qccg/pachner-cobordism-evidence.json \
+            --evidence artifacts/qccg/pachner-composition-evidence.json \
+            --evidence artifacts/qccg/causal-14-slab-evidence.json \
+            --evidence artifacts/qccg/causal-23-slab-evidence.json \
+            --evidence artifacts/qccg/strict-slab-composition-evidence.json \
+            --evidence artifacts/qccg/closed-slice-slab-evidence.json \
+            --evidence artifacts/qccg/generic-slab-scan-evidence.json \
+            --evidence artifacts/qccg/cubic-evidence.json \
+            --evidence artifacts/qccg/derivative-cubic-evidence.json \
+            --evidence artifacts/qccg/structure-function-evidence.json \
+            --evidence artifacts/qccg/emergent-structure-evidence.json \
+            --evidence artifacts/qccg/hda-1d-evidence.json \
+            --evidence artifacts/qccg/rg-bridge-evidence.json \
+            --evidence artifacts/qccg/qccg-cdt-transfer-match-evidence.json \
+            --evidence artifacts/qccg/qccg-cdt-diffusion-bridge-evidence.json \
+            --evidence artifacts/qccg/qccg-cdt-kinetic-coefficient-evidence.json \
+            --evidence artifacts/qccg/qccg-cdt-potential-drift-evidence.json \
+            --evidence artifacts/qccg/qccg-large-volume-diffusion-evidence.json \
+            --evidence artifacts/qccg/qccg-mesoscopic-clt-evidence.json \
+            --evidence artifacts/qccg/qccg-time-evolved-volume-kernel-evidence.json \
+            --evidence artifacts/qccg/qccg-cdt-structural-action-evidence.json \
+            --evidence artifacts/qccg/cdt-frg-reuter-anchor-evidence.json \
+            --evidence artifacts/qccg/exact-rg-evidence.json \
+            --evidence artifacts/qccg/feshbach-evidence.json \
+            --evidence artifacts/qccg/cellulation-rg-evidence.json \
+            --evidence artifacts/qccg/gr-cubic-ward-evidence.json \
+            --evidence artifacts/qccg/tensor-cubic-evidence.json \
+            --evidence artifacts/qccg/tensor-cubic-stress-evidence.json \
+            --evidence artifacts/qccg/cubic-coefficient-selection-evidence.json \
+            --evidence artifacts/qccg/lattice-ward-evidence.json \
+            --evidence artifacts/qccg/tensor-cubic-continuum-evidence.json \
+            --evidence artifacts/qccg/soft-graviton-evidence.json \
+            --require QCCG_RG_BRIDGE_DATA_TOY
+
+      - name: Assert stronger physical claims remain blocked
+        run: |
+          theorygate check qccg/theorygate.yaml \
+            --evidence artifacts/qccg/evidence.json \
+            --evidence artifacts/qccg/parent-evidence.json \
+            --evidence artifacts/qccg/lorentz-evidence.json \
+            --evidence artifacts/qccg/unitarity-evidence.json \
+            --evidence artifacts/qccg/interacting-scaling-evidence.json \
+            --evidence artifacts/qccg/graph-change-scaling-evidence.json \
+            --evidence artifacts/qccg/refinement-coherence-evidence.json \
+            --evidence artifacts/qccg/constraint-evidence.json \
+            --evidence artifacts/qccg/nonlinear-constraint-evidence.json \
+            --evidence artifacts/qccg/spatial-pachner-evidence.json \
+            --evidence artifacts/qccg/cellulation-evidence.json \
+            --evidence artifacts/qccg/manifold-diagnostic-evidence.json \
+            --evidence artifacts/qccg/pachner-evidence.json \
+            --evidence artifacts/qccg/weighted-pachner-evidence.json \
+            --evidence artifacts/qccg/causal-foliation-evidence.json \
+            --evidence artifacts/qccg/causal-move-evidence.json \
+            --evidence artifacts/qccg/causal-ensemble-evidence.json \
+            --evidence artifacts/qccg/causal-column-evidence.json \
+            --evidence artifacts/qccg/time-local-transfer-evidence.json \
+            --evidence artifacts/qccg/cdt-move4-evidence.json \
+            --evidence artifacts/qccg/cdt-move46-evidence.json \
+            --evidence artifacts/qccg/cdt-move33-evidence.json \
+            --evidence artifacts/qccg/cdt-mixed-connectivity-evidence.json \
+            --evidence artifacts/qccg/cdt-connectivity-scaling-evidence.json \
+            --evidence artifacts/qccg/cdt-move-invariant-evidence.json \
+            --evidence artifacts/qccg/pachner-cobordism-evidence.json \
+            --evidence artifacts/qccg/pachner-composition-evidence.json \
+            --evidence artifacts/qccg/causal-14-slab-evidence.json \
+            --evidence artifacts/qccg/causal-23-slab-evidence.json \
+            --evidence artifacts/qccg/strict-slab-composition-evidence.json \
+            --evidence artifacts/qccg/closed-slice-slab-evidence.json \
+            --evidence artifacts/qccg/generic-slab-scan-evidence.json \
+            --evidence artifacts/qccg/cubic-evidence.json \
+            --evidence artifacts/qccg/derivative-cubic-evidence.json \
+            --evidence artifacts/qccg/structure-function-evidence.json \
+            --evidence artifacts/qccg/emergent-structure-evidence.json \
+            --evidence artifacts/qccg/hda-1d-evidence.json \
+            --evidence artifacts/qccg/rg-bridge-evidence.json \
+            --evidence artifacts/qccg/qccg-cdt-transfer-match-evidence.json \
+            --evidence artifacts/qccg/qccg-cdt-diffusion-bridge-evidence.json \
+            --evidence artifacts/qccg/qccg-cdt-kinetic-coefficient-evidence.json \
+            --evidence artifacts/qccg/qccg-cdt-potential-drift-evidence.json \
+            --evidence artifacts/qccg/qccg-large-volume-diffusion-evidence.json \
+            --evidence artifacts/qccg/qccg-mesoscopic-clt-evidence.json \
+            --evidence artifacts/qccg/qccg-time-evolved-volume-kernel-evidence.json \
+            --evidence artifacts/qccg/qccg-cdt-structural-action-evidence.json \
+            --evidence artifacts/qccg/cdt-frg-reuter-anchor-evidence.json \
+            --evidence artifacts/qccg/exact-rg-evidence.json \
+            --evidence artifacts/qccg/feshbach-evidence.json \
+            --evidence artifacts/qccg/cellulation-rg-evidence.json \
+            --evidence artifacts/qccg/gr-cubic-ward-evidence.json \
+            --evidence artifacts/qccg/tensor-cubic-evidence.json \
+            --evidence artifacts/qccg/tensor-cubic-stress-evidence.json \
+            --evidence artifacts/qccg/cubic-coefficient-selection-evidence.json \
+            --evidence artifacts/qccg/lattice-ward-evidence.json \
+            --evidence artifacts/qccg/tensor-cubic-continuum-evidence.json \
+            --evidence artifacts/qccg/soft-graviton-evidence.json \
+            --json > artifacts/qccg/report.json
+          python qccg/check_promotion_boundaries.py \
+            --report artifacts/qccg/report.json \
+            --out artifacts/qccg/promotion-boundary.json
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qccg-bridge-audit
+          path: artifacts/qccg/
