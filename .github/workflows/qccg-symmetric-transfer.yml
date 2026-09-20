@@ -7,6 +7,7 @@ on:
       - "qccg/run_qccg_fixed_volume_curvature_thermalization.py"
       - "qccg/run_qccg_equilibrated_critical_line.py"
       - "qccg/run_qccg_curvature_weighted_time_exploration.py"
+      - "qccg/theorygate.yaml"
       - "requirements.txt"
       - ".github/workflows/qccg-symmetric-transfer.yml"
   workflow_dispatch:
@@ -29,6 +30,13 @@ jobs:
           mkdir -p artifacts/qccg-symmetric-transfer
           python qccg/run_qccg_symmetric_transfer_extraction.py \
             --out artifacts/qccg-symmetric-transfer/evidence.json
+      - name: Validate TheoryGate model
+        run: theorygate validate qccg/theorygate.yaml
+      - name: Promote only the mesoscopic diagnostic
+        run: |
+          theorygate check qccg/theorygate.yaml \
+            --evidence artifacts/qccg-symmetric-transfer/evidence.json \
+            --require QCCG_MESOSCOPIC_TRANSFER_DIAGNOSTIC_TOY
       - uses: actions/upload-artifact@v4
         if: always()
         with:
