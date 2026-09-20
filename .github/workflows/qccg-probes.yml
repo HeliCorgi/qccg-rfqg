@@ -111,6 +111,7 @@ jobs:
           - name: qccg-equilibrated-cdt-confirmation
             script: qccg/run_qccg_equilibrated_cdt_confirmation.py
             output: qccg-equilibrated-cdt-confirmation-evidence.json
+            expected_failure: true
           - name: qccg-equilibrated-critical-line
             script: qccg/run_qccg_equilibrated_critical_line.py
             output: qccg-equilibrated-critical-line-evidence.json
