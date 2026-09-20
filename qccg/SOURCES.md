@@ -124,3 +124,34 @@ w(S -> S') = exp[-(S(S')-S(S))/2]
 is a QCCG modeling choice used because it gives exact pairwise detailed
 balance with weight `exp(-S)`.  Regge's paper supplies the geometric action
 anchor, not this stochastic rate prescription.
+
+
+## CDT–FRG Equation (42) normalization note
+
+The direct scale-factor matching coordinate used in Ambjørn, Gizbert-Studnicki,
+Görlich and Németh, *Phys. Rev. D* **110**, 126006 (2024), is
+
+```text
+(omega^2 * Gamma) / (omega0^2 * sqrt(N4)) ~= 1.63 * lambda_k * g_k
+```
+
+with the preceding continuum identification of the lattice effective action.
+This project therefore does **not** substitute equilibrium Fokker–Planck
+potential coefficients directly for the CDT transfer-action coefficients.
+
+Before Equation (42) is used for QCCG, the required chain is:
+
+```text
+QCCG reversible volume generator
+  -> symmetric coarse transfer kernel
+  -> direct Gamma / delta / lambda / omega extraction
+  -> time/scale normalization
+  -> CDT–FRG Equation (42)
+```
+
+Source:
+- J. Ambjørn, J. Gizbert-Studnicki, A. Görlich, D. Németh,
+  *Is lattice quantum gravity asymptotically safe? Making contact between
+  causal dynamical triangulations and the functional renormalization group*,
+  Phys. Rev. D 110, 126006 (2024),
+  DOI: 10.1103/PhysRevD.110.126006.
