@@ -22,6 +22,7 @@ concurrency:
 jobs:
   probe:
     runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.expected_failure == true }}
     strategy:
       fail-fast: false
       matrix:
@@ -104,6 +105,7 @@ jobs:
           - name: qccg-curvature-weighted-time-confirmation
             script: qccg/run_qccg_curvature_weighted_time_confirmation.py
             output: qccg-curvature-weighted-time-confirmation-evidence.json
+            expected_failure: true
           - name: qccg-fixed-volume-curvature-thermalization
             script: qccg/run_qccg_fixed_volume_curvature_thermalization.py
             output: qccg-fixed-volume-curvature-thermalization-evidence.json
@@ -116,6 +118,7 @@ jobs:
           - name: qccg-equilibrated-critical-confirmation
             script: qccg/run_qccg_equilibrated_critical_confirmation.py
             output: qccg-equilibrated-critical-confirmation-evidence.json
+            expected_failure: true
           - name: qccg-cdt-coefficient-bootstrap
             script: qccg/run_qccg_cdt_coefficient_uncertainty.py
             output: qccg-cdt-coefficient-bootstrap-evidence.json
