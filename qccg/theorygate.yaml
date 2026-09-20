@@ -940,10 +940,35 @@ obligations:
     title: "Direct identification of Fokker-Planck mu/lambda with CDT transfer-action coefficients is rejected"
     kind: negative-control
     description: "The symmetric similarity transform produces W=a*U'^2/8-(a*U')'/4, so equilibrium-potential coefficients are not transfer-action coefficients."
+  - id: QCCG_DENSE_VOLUME_GENERATOR_CONSTRUCTED
+    title: "A dense curvature-equilibrated QCCG volume generator is constructed"
+    kind: formal-numerical
+    description: "Requires consecutive N3 sectors with averaged microscopic weighted Pachner rates and valid closed-S3 samples."
+  - id: QCCG_N3_INSTANTANEOUS_MARKOV_REDUCTION_REJECTED
+    title: "Instantaneous N3-only Markov reduction is rejected when Kolmogorov cycle consistency fails"
+    kind: negative-control
+    description: "Three unit-volume 2<->3 steps and one three-volume 1<->4 step must encode the same coarse potential difference for a reversible Markov process on N3 alone; the audited generator violates this condition."
+  - id: QCCG_REVERSIBLE_PROJECTION_SIZE_DIAGNOSTIC
+    title: "The size of the reversible projection required by the N3-only generator is recorded"
+    kind: negative-control
+    description: "A large correction is retained explicitly and is not treated as microscopic QCCG evidence."
+  - id: QCCG_MESOSCOPIC_REVERSIBLE_TRANSFER_DIAGNOSTIC
+    title: "A reversible-projection mesoscopic transfer kernel approaches the CDT finite-volume form"
+    kind: formal-numerical
+    description: "Across preregistered increasing time blocks, the first block satisfying CDT fit quality, kinetic normalization and positive delta/lambda is recorded as a diagnostic only."
+  - id: QCCG_FINITE_TIME_EQUILIBRIUM_TRANSFER_EXTRACTION
+    title: "A direct finite-time equilibrium QCCG two-slice transfer kernel is extracted without an O(1) reversible projection"
+    kind: physics
+    description: "Requires direct equilibrium finite-time pair data or an enlarged coarse state including hidden N0/curvature followed by controlled elimination."
   - id: QCCG_CDT_SYMMETRIC_TRANSFER_EXTRACTION
     title: "A coarse symmetric QCCG transfer kernel is extracted and directly fitted to the CDT action"
     kind: physics
-    description: "Requires dense volume-sector coarse rates or an equivalent direct reduced kernel, detailed-balance symmetrization, and stable Gamma/delta/lambda/omega extraction."
+    description: "Requires a direct finite-time equilibrium transfer extraction with stable Gamma/delta/lambda/omega rather than a large reversible projection of an instantaneous N3-only generator."
+    depends_on:
+      - QCCG_DENSE_VOLUME_GENERATOR_CONSTRUCTED
+      - QCCG_N3_INSTANTANEOUS_MARKOV_REDUCTION_REJECTED
+      - QCCG_MESOSCOPIC_REVERSIBLE_TRANSFER_DIAGNOSTIC
+      - QCCG_FINITE_TIME_EQUILIBRIUM_TRANSFER_EXTRACTION
   - id: QCCG_CDT_EFFECTIVE_COEFFICIENT_MATCH
     title: "QCCG large-volume effective Gamma, mu, lambda and omega are measured and stable"
     kind: physics
@@ -1254,6 +1279,16 @@ claims:
     requires:
       - QCCG_CDT_GENERATOR_TO_TRANSFER_KINETIC_MAP
       - QCCG_CDT_NAIVE_POTENTIAL_IDENTIFICATION_REJECTED
+
+  - id: QCCG_MESOSCOPIC_TRANSFER_DIAGNOSTIC_TOY
+    title: "Mesoscopic CDT transfer diagnostic after rejecting instantaneous N3 Markov closure"
+    rank: 49
+    statement: "The dense QCCG volume generator fails the instantaneous N3-only Kolmogorov-cycle test, but its explicitly reversible-projected mesoscopic kernel enters a preregistered time window with the finite-volume CDT kinetic/potential shape and positive delta/lambda. This is a diagnostic, not a direct physical transfer extraction."
+    requires:
+      - QCCG_DENSE_VOLUME_GENERATOR_CONSTRUCTED
+      - QCCG_N3_INSTANTANEOUS_MARKOV_REDUCTION_REJECTED
+      - QCCG_REVERSIBLE_PROJECTION_SIZE_DIAGNOSTIC
+      - QCCG_MESOSCOPIC_REVERSIBLE_TRANSFER_DIAGNOSTIC
 
   - id: QCCG_CDT_COEFFICIENT_UNCERTAINTY_TOY
     title: "Bootstrap-resolved CDT coefficient diagnostic"
