@@ -262,6 +262,105 @@ def fit_scan_n0(vols, M):
     return best, fits
 
 
+def generic_cdt_fit(vols, M, n0_scan, boundary_margin=1, max_sep=3, min_rows=15):
+    fits = []
+    for shift in n0_scan:
+        X = []
+        y = []
+        rows = []
+        lo = boundary_margin
+        hi = len(vols) - boundary_margin
+        for i in range(lo, hi):
+            n = vols[i]
+            for j in range(i, min(hi, i + max_sep + 1)):
+                m = vols[j]
+                val = M[i][j]
+                if val <= 1.0e-15:
+                    continue
+                denom = n + m - 2.0 * shift
+                if denom <= 0:
+                    continue
+                x = 0.5 * (n + m)
+                kin = (n - m) ** 2 / denom
+                X.append([1.0, kin, x ** (1.0 / 3.0), -x])
+                y.append(-math.log(val))
+                rows.append((n, m))
+        if len(rows) < min_rows:
+            continue
+        MX = sp.Matrix(X)
+        vy = sp.Matrix(y)
+        if MX.rank() < 4:
+            continue
+        beta = (MX.T * MX).LUsolve(MX.T * vy)
+        b = [float(sp.N(z)) for z in beta]
+        pred = [sum(row[k] * b[k] for k in range(4)) for row in X]
+        ym = sum(y) / len(y)
+        sse = sum((a-p)**2 for a,p in zip(y,pred))
+        sst = sum((a-ym)**2 for a in y)
+        r2 = 1.0 - sse/sst if sst > 1e-18 else 1.0
+        A = b[1]
+        if A <= 0:
+            continue
+        fits.append({
+            "n0": shift,
+            "Gamma": 1.0/A,
+            "delta": b[2]/A,
+            "lambda": b[3]/A,
+            "r2": r2,
+            "n_rows": len(rows),
+        })
+    return max(fits, key=lambda x: x["r2"]) if fits else None
+
+
+def blocked_series(series, width=3):
+    """One real-space volume blocking step for the period-3 lattice artifact."""
+    blocked = []
+    centers = {}
+    for n in series:
+        b = (n - VOLUME_MIN) // width
+        lo = VOLUME_MIN + width*b
+        hi = min(VOLUME_MAX, lo + width - 1)
+        center = 0.5 * (lo + hi)
+        centers[b] = center
+        blocked.append(b)
+    ordered_bins = sorted(set(blocked))
+    bin_to_index = {b:i for i,b in enumerate(ordered_bins)}
+    compact = [bin_to_index[b] for b in blocked]
+    physical_vols = [centers[b] for b in ordered_bins]
+    return compact, physical_vols
+
+
+def blocked_joint_kernel(series, lag, width=3):
+    blocked, physical_vols = blocked_series(series, width)
+    nbin = len(physical_vols)
+    J = [[0 for _ in range(nbin)] for _ in range(nbin)]
+    for a,b in zip(blocked[:-lag], blocked[lag:]):
+        J[a][b] += 1
+
+    counts = collections.Counter(blocked)
+    pi = [counts[i]/len(blocked) for i in range(nbin)]
+    total = sum(sum(row) for row in J)
+    M = [[0.0 for _ in range(nbin)] for _ in range(nbin)]
+    for i in range(nbin):
+        for j in range(nbin):
+            jsym = 0.5*(J[i][j]+J[j][i])/total
+            if pi[i] > 0 and pi[j] > 0:
+                M[i][j] = jsym/math.sqrt(pi[i]*pi[j])
+    scale = max(max(row) for row in M)
+    M = [[x/scale for x in row] for row in M]
+    return physical_vols, J, M
+
+
+def residue_modulation(series):
+    c = collections.Counter((n - VOLUME_MIN) % 3 for n in series)
+    total = len(series)
+    probs = [c[i]/total for i in range(3)]
+    return {
+        "probabilities": probs,
+        "max_over_min": max(probs)/min(probs),
+    }
+
+
 def occupancy_summary(n3_series, n0_series):
     n3c = collections.Counter(n3_series)
     by_n3 = collections.defaultdict(list)
@@ -335,6 +434,37 @@ def main():
         for r in occ
     )
 
+    residue = residue_modulation(n3_series)
+    blocked_rows = []
+    blocked_selected = None
+    blocked_n0_scan = tuple(-10.0 + 0.5*i for i in range(41))
+    for lag in LAG_STEPS:
+        bvols, bJ, bM = blocked_joint_kernel(n3_series, lag, width=3)
+        basym = joint_asymmetry(bJ)
+        bfit = generic_cdt_fit(
+            bvols, bM, blocked_n0_scan,
+            boundary_margin=1, max_sep=3, min_rows=15
+        )
+        brow = {
+            "lag_steps": lag,
+            "tau": lag*SAMPLE_DT,
+            "joint_asymmetry": basym,
+            "best_fit": bfit,
+        }
+        bpass = bool(
+            bfit
+            and basym <= JOINT_ASYMMETRY_MAX
+            and bfit["r2"] >= 0.85
+            and bfit["delta"] > 0
+            and bfit["lambda"] > 0
+        )
+        brow["blocked_transfer_pass"] = bpass
+        blocked_rows.append(brow)
+        if blocked_selected is None and bpass:
+            blocked_selected = brow
+
+    blocked_pass = blocked_selected is not None
+
     result = {
         "schema": 1,
         "scope": "direct finite-time equilibrium N3 two-slice kernel from one long gauge-randomized QCCG trajectory in a reflecting volume window",
@@ -385,6 +515,23 @@ def main():
                 n0_scan=[min(N0_SCAN), max(N0_SCAN), 0.25],
                 selected=selected,
                 lag_scan=lag_rows,
+            ),
+            evidence(
+                "qccg-period3-volume-artifact",
+                "QCCG_PERIOD3_VOLUME_LATTICE_ARTIFACT",
+                "PASS" if (not direct_pass and residue["max_over_min"] >= 1.5) else "NOT_APPLICABLE",
+                "When the raw N3 finite-time kernel fails the CDT fit, the stationary volume series is checked for the period-3 modulation naturally associated with the microscopic 1<->4 DeltaN3=3 move family.",
+                residue_modulation=residue,
+                raw_lag_scan=lag_rows,
+            ),
+            evidence(
+                "qccg-block3-transfer-diagnostic",
+                "QCCG_BLOCK3_TRANSFER_DIAGNOSTIC",
+                "PASS" if blocked_pass else "FAIL",
+                "A single width-3 real-space blocking step is applied to the same equilibrium volume trajectory. Improvement to a CDT-like symmetric kernel is treated only as evidence that the period-3 structure is a removable lattice artifact candidate, not as the unblocked physical transfer extraction.",
+                residue_modulation=residue,
+                selected=blocked_selected,
+                lag_scan=blocked_rows,
             ),
         ],
     }
