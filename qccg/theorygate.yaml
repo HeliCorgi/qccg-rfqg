@@ -932,6 +932,18 @@ obligations:
     title: "Exact finite-volume p=1 power-law fitting is rejected in favor of the published CDT affine denominator"
     kind: negative-control
     description: "A nonzero finite-volume n0 offset can shift a finite-range log-log exponent away from one even when the CDT affine kinetic law is satisfied."
+  - id: QCCG_CDT_GENERATOR_TO_TRANSFER_KINETIC_MAP
+    title: "The reversible QCCG volume generator maps to the CDT affine kinetic denominator"
+    kind: formal-numerical
+    description: "For a(N)=D*(N3-n0), the short-time symmetric kernel has Gamma_block=D*tau in QCCG microscopic time units."
+  - id: QCCG_CDT_NAIVE_POTENTIAL_IDENTIFICATION_REJECTED
+    title: "Direct identification of Fokker-Planck mu/lambda with CDT transfer-action coefficients is rejected"
+    kind: negative-control
+    description: "The symmetric similarity transform produces W=a*U'^2/8-(a*U')'/4, so equilibrium-potential coefficients are not transfer-action coefficients."
+  - id: QCCG_CDT_SYMMETRIC_TRANSFER_EXTRACTION
+    title: "A coarse symmetric QCCG transfer kernel is extracted and directly fitted to the CDT action"
+    kind: physics
+    description: "Requires dense volume-sector coarse rates or an equivalent direct reduced kernel, detailed-balance symmetrization, and stable Gamma/delta/lambda/omega extraction."
   - id: QCCG_CDT_EFFECTIVE_COEFFICIENT_MATCH
     title: "QCCG large-volume effective Gamma, mu, lambda and omega are measured and stable"
     kind: physics
@@ -942,6 +954,7 @@ obligations:
       - QCCG_CURVATURE_WEIGHTED_DYNAMICS
       - QCCG_CDT_KINETIC_COEFFICIENT_STABILITY
       - QCCG_CDT_TIME_UNIT_MAP
+      - QCCG_CDT_SYMMETRIC_TRANSFER_EXTRACTION
       - QCCG_CDT_POTENTIAL_PROFILE_MATCH
   - id: CDT_FRG_MAPPING_REFERENCE
     title: "Published CDT-to-FRG scale-factor mapping is fixed as an external anchor"
@@ -1233,6 +1246,14 @@ claims:
     requires:
       - QCCG_CDT_AFFINE_KINETIC_DENOMINATOR
       - QCCG_EXACT_P1_FINITE_VOLUME_GATE_REJECTED
+
+  - id: QCCG_CDT_TRANSFER_NORMALIZATION_DIAGNOSTIC
+    title: "Generator-to-transfer normalization diagnostic"
+    rank: 49
+    statement: "The affine QCCG volume generator is shown to map to the CDT kinetic denominator with Gamma_block=D*tau, while direct identification of equilibrium Fokker-Planck potential coefficients with CDT transfer-action coefficients is explicitly rejected."
+    requires:
+      - QCCG_CDT_GENERATOR_TO_TRANSFER_KINETIC_MAP
+      - QCCG_CDT_NAIVE_POTENTIAL_IDENTIFICATION_REJECTED
 
   - id: QCCG_CDT_COEFFICIENT_UNCERTAINTY_TOY
     title: "Bootstrap-resolved CDT coefficient diagnostic"
