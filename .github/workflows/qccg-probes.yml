@@ -22,7 +22,6 @@ concurrency:
 jobs:
   probe:
     runs-on: ubuntu-latest
-    continue-on-error: ${{ matrix.expected_failure == true }}
     strategy:
       fail-fast: false
       matrix:
@@ -157,7 +156,18 @@ jobs:
       - name: Run probe
         run: |
           mkdir -p artifacts/qccg-probes
+          set +e
           python "${{ matrix.script }}" --out "artifacts/qccg-probes/${{ matrix.output }}"
+          rc=$?
+          set -e
+          if [ "$rc" -eq 0 ]; then
+            exit 0
+          fi
+          if [ "${{ matrix.expected_failure }}" = "true" ]; then
+            echo "::notice::Expected research failure retained for ${{ matrix.name }} (exit $rc)."
+            exit 0
+          fi
+          exit "$rc"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
