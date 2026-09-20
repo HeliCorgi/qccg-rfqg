@@ -1,1 +1,3 @@
-sympy>=1.12\nPyYAML>=6.0\ntheorygate @ git+https://github.com/HeliCorgi/theorygate.git@33290aa6c4fec7653b3bd6d53b7d3b7fc0f3bbee\n
+sympy>=1.12
+PyYAML>=6.0
+theorygate @ git+https://github.com/HeliCorgi/theorygate.git@33290aa6c4fec7653b3bd6d53b7d3b7fc0f3bbee
