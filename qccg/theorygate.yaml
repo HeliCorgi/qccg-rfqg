@@ -1,0 +1,1633 @@
+version: "0.5"
+model:
+  id: qccg-rfqg-bridge
+  title: "QCCG × RFQG continuum-bridge audit"
+  choices:
+    scope: "finite-Weyl quadratic flat-sector pilot; not a full QCCG many-body solution"
+    local_register: "finite K-state Weyl qudit"
+    reciprocity: "2-cell / dual-2-cell geometric reciprocity"
+    quadratic_background: "periodic flat lattice Hessian"
+    continuum_target: "Lorentzian asymptotic-safety / RFQG-5 universality class"
+
+obligations:
+  - id: FINITE_WEYL_ALGEBRA
+    title: "Finite local Weyl algebra is realized"
+    kind: formal-numerical
+    description: "A finite K-state register realizes ZX=omega XZ and bounded local Weyl operators."
+  - id: WEYL_QUADRATIC_LIMIT
+    title: "Finite Weyl plaquette term has a controlled quadratic small-phase limit"
+    kind: numerical
+    description: "For preregistered finite K values, 2-W-W† approaches Q^2 at the declared tolerance."
+  - id: GEOMETRIC_RECIPROCITY
+    title: "Geometric reciprocity is declared"
+    kind: physical-choice
+    description: "Curvature 2-cells and conjugate dual flux use the same elementary register type."
+  - id: D4_RECIPROCITY_ALGEBRA
+    title: "The reciprocity dimension relation selects D=4"
+    kind: formal
+    description: "Given geometric reciprocity, 2=D-2 has the unique integer solution D=4."
+  - id: TT_QUADRATIC_SPECTRUM
+    title: "Declared quadratic Hessian has exactly two massless tensor branches"
+    kind: numerical
+    description: "The flat-sector quadratic Hessian has two zero branches and no zero defect branch at finite periodic volume."
+  - id: FINITE_SIZE_GAP_SCALING
+    title: "First tensor excitation scales as 1/L"
+    kind: robustness
+    description: "The first nonzero tensor frequency obeys preregistered z=1 finite-size scaling over the declared lattice sizes."
+  - id: DEFECT_GAP_STABILITY
+    title: "Declared scalar/vector defect sectors remain gapped"
+    kind: robustness
+    description: "The model-internal defect mass remains nonzero under the same finite-size scan."
+  - id: FULL_MICROSCOPIC_DERIVATION
+    title: "The quadratic tensor Hessian is derived from one fully explicit interacting finite-qudit parent Hamiltonian"
+    kind: physics
+    description: "Requires a fixed microscopic Hamiltonian and controlled derivation, not coefficient tuning of the Hessian."
+  - id: CELLULATION_LIQUID_ZERO_MODE
+    title: "The local-move Hamiltonian admits a unique uniform cellulation-liquid zero mode"
+    kind: formal-numerical
+    description: "On a connected audited cellulation-move graph, H_move is a positive graph Laplacian with unique uniform zero state."
+  - id: CELLULATION_CONNECTIVITY_CONTROL
+    title: "Disconnected move graphs are detected as degenerate-vacuum failures"
+    kind: negative-control
+    description: "A disconnected cellulation-move graph must produce multiple zero modes."
+  - id: MANIFOLD_DIAGNOSTIC_CALIBRATED
+    title: "Spectral and volume-growth manifold-dimension diagnostics are calibrated"
+    kind: numerical
+    description: "A preregistered classifier identifies a known 4D periodic reference from spectral dimension and volume growth."
+  - id: MANIFOLD_DIMENSION_CONTROLS
+    title: "The calibrated manifold-dimension diagnostic rejects 3D and 5D controls"
+    kind: negative-control
+    description: "Known 3D and 5D periodic references must not be classified as 4D."
+  - id: PACHNER_4D_MANIFOLD_TOPOLOGY_CONTROL
+    title: "Explicit Pachner-generated ensembles preserve closed combinatorial 4-manifold incidence"
+    kind: formal-numerical
+    description: "Audited 1->5 and 2->4 Pachner moves preserve two 4-simplex incidences per tetrahedral face."
+  - id: UNWEIGHTED_PACHNER_DIMENSION_FAILURE_DETECTED
+    title: "An unweighted topologically 4D Pachner ensemble is rejected as a 4D metric-scaling phase"
+    kind: negative-control
+    description: "Spectral and volume-growth dimensions remain far below four despite correct combinatorial manifold topology."
+  - id: PACHNER_MOVESET_REPAIR_INSUFFICIENT
+    title: "Adding 2->4 Pachner moves alone is insufficient to recover a 4D metric phase"
+    kind: negative-control
+    description: "A broader reversible-move architecture and nontrivial geometric weighting are required."
+  - id: REGGE_WEIGHTED_PACHNER_SCAN_EXECUTED
+    title: "A finite reversible Regge-like weighted Pachner scan is executed"
+    kind: numerical
+    description: "A 1<->5 and 2<->4 Metropolis-Hastings toy with N2 weighting and volume fixing preserves closed 4-manifold incidence."
+  - id: SIMPLE_REGGE_WEIGHT_REPAIR_INSUFFICIENT
+    title: "A simple Euclidean Regge-like N2 weight is insufficient in the audited finite scan"
+    kind: negative-control
+    description: "No preregistered finite kappa2 point reaches even the broad spectral/volume four-dimensional target."
+  - id: CAUSAL_FOLIATED_4D_ARCHITECTURE
+    title: "A finite 4D foliated causal simplicial architecture is explicitly constructed"
+    kind: formal-numerical
+    description: "Adjacent-time (4,1)/(3,2)/(2,3)/(1,4) simplices form a 4D simplicial cylinder with correct interior and spatial-boundary incidence."
+  - id: CAUSAL_FOLIATION_NEGATIVE_CONTROL
+    title: "Nonadjacent-time simplices are detected as causal/foliation violations"
+    kind: negative-control
+    description: "A deliberately inserted time-skipping simplex fails the causal building-block rule."
+  - id: CAUSAL_LOCAL_MOVESET_TOY
+    title: "A finite causal foliated complex admits reversible local 2<->4 Pachner moves"
+    kind: formal-numerical
+    description: "Accepted local moves remain inside the adjacent-slice manifold class and possess exact inverse moves."
+  - id: CAUSAL_MOVE_HERMITIAN_TOY
+    title: "The finite causal move graph defines a Hermitian positive move Hamiltonian"
+    kind: formal-numerical
+    description: "The audited finite accepted-move graph Laplacian is Hermitian positive semidefinite with a unique uniform zero mode."
+  - id: CAUSAL_MOVE_NEGATIVE_CONTROL
+    title: "Time-skipping local replacements are rejected by the causal move audit"
+    kind: negative-control
+    description: "A deliberately nonadjacent-time local replacement must fail the same causal/manifold validator."
+  - id: CAUSAL_MOVE_ENSEMBLE_SCAN_EXECUTED
+    title: "A finite reversible causal-move ensemble scan is executed with detailed-balance control"
+    kind: numerical
+    description: "The finite causal ensemble preserves foliation/manifold constraints and checks proposal-count Metropolis detailed balance."
+  - id: CAUSAL_FINITE_4D_CANDIDATE
+    title: "The finite causal-move ensemble reaches a broad four-dimensional geometry diagnostic"
+    kind: physics
+    description: "A finite-volume diagnostic only; PASS does not establish a continuum four-dimensional phase and FAIL is a valid negative result."
+  - id: CAUSAL_FIXED_VERTEX_MOVESET_INSUFFICIENT
+    title: "The fixed-vertex causal 2<->4 move ensemble is diagnosed as insufficient when it fails the finite 4D geometry target"
+    kind: negative-control
+    description: "The local 2<->4 move set preserves the microscopic vertex set, so a failed extended-geometry diagnostic motivates vertex-changing causal moves."
+  - id: CAUSAL_COLUMN_MOVESET_TOY
+    title: "Vertex-changing causal-column spatial Pachner moves preserve the finite causal 4-manifold architecture"
+    kind: formal-numerical
+    description: "Spatial 1<->4 and 2<->3 moves change vertices/connectivity while staircase time extension preserves causal manifold incidence."
+  - id: CAUSAL_COLUMN_ENSEMBLE_SCAN_EXECUTED
+    title: "A finite vertex-changing causal-column ensemble scan is executed"
+    kind: numerical
+    description: "The repaired ensemble is sampled with proposal-count detailed balance and spatial/4D manifold checks."
+  - id: CAUSAL_COLUMN_FINITE_4D_CANDIDATE
+    title: "The finite causal-column repair reaches a broad four-dimensional geometry diagnostic"
+    kind: physics
+    description: "A finite diagnostic only; PASS does not establish scaling and FAIL is a valid negative result."
+  - id: CAUSAL_COLUMN_REPAIR_INSUFFICIENT
+    title: "Repeating one vertex-changing spatial triangulation through time is diagnosed as insufficient when the 4D target fails"
+    kind: negative-control
+    description: "The repair removes the fixed-vertex defect but may still fail because every time slice shares one spatial geometry."
+  - id: TIME_LOCAL_SLICE_TRANSFER_TOY
+    title: "A finite spatial-triangulation state graph supports nearest-time local transfer dynamics"
+    kind: formal-numerical
+    description: "Adjacent discrete times may carry distinct spatial geometries related by one reversible Pachner move, with a Hermitian connected move graph."
+  - id: TIME_NONLOCAL_JUMP_NEGATIVE_CONTROL
+    title: "A two-move geometry jump is rejected by the nearest-time transfer rule"
+    kind: negative-control
+    description: "States at graph distance two are not direct one-step temporal neighbors."
+  - id: PACHNER_4SIMPLEX_COBORDISM_TOY
+    title: "Spatial 1<->4 and 2<->3 Pachner moves admit local 4-simplex cobordism blocks"
+    kind: formal-numerical
+    description: "Complementary tetrahedral facet sets of one 4-simplex realize the spatial Pachner transitions with identical boundary 2-complexes."
+  - id: PACHNER_COBORDISM_INVERSE_CONTROL
+    title: "The local Pachner cobordism blocks have exact complementary inverse moves"
+    kind: negative-control
+    description: "Swapping lower/upper facet sets realizes 4->1 and 3->2 inverse cobordisms."
+  - id: PACHNER_COBORDISM_COMPOSITION_TOY
+    title: "Sequential local 4-simplex Pachner cobordisms compose to a 4D manifold-with-boundary"
+    kind: formal-numerical
+    description: "Two local refinement blocks glue along one tetrahedron with incidence two and a tree-like causal attachment graph."
+  - id: PACHNER_COBORDISM_OVERGLUE_NEGATIVE_CONTROL
+    title: "Overgluing an already-internal tetrahedron is detected"
+    kind: negative-control
+    description: "A third simplex attached to an internal tetrahedron creates incidence three and is rejected."
+  - id: STRICT_SLAB_GLUE_INCIDENCE_LEMMA
+    title: "Axiom-free formal slab-gluing incidence lemma"
+    kind: formal
+    description: "Given incidence one on each copy of an interface face, gluing gives incidence two; external incidence and adjacent-layer arithmetic are preserved. Physical complexes must establish the hypotheses separately."
+  - id: STRICT_FINITE_HISTORY_GLUE_LEMMA
+    title: "Axiom-free finite-history slab interface gluing theorem"
+    kind: formal
+    description: "For any finite list of already-audited interfaces with incidence one from each adjacent slab, every glued interface has incidence two and is not external."
+  - id: STRICT_23_ROUNDTRIP_COMPOSITION_TOY
+    title: "Strict 2->3 and 3->2 causal slabs compose through one shared intermediate slice"
+    kind: formal-numerical
+    description: "The explicit slabs glue on the same t=1 triangulation so the middle spatial tetrahedra have incidence two and disappear from the external boundary."
+  - id: STRICT_SLAB_GLUE_NEGATIVE_CONTROL
+    title: "Incorrectly duplicated intermediate slice vertices are detected"
+    kind: negative-control
+    description: "Using a distinct copy of the middle slice prevents exact slab composition and leaves disconnection or spurious intermediate boundary."
+  - id: QCCG_STRICT_FOLIATION_COMPOSITION
+    title: "Mixed local cobordism histories admit one strict equal-time global foliation"
+    kind: physics
+    description: "Requires globally consistent slice labels for arbitrary compositions, beyond the finite round-trip composition toy."
+    depends_on:
+      - STRICT_SLAB_GLUE_INCIDENCE_LEMMA
+      - STRICT_FINITE_HISTORY_GLUE_LEMMA
+      - STRICT_23_ROUNDTRIP_COMPOSITION_TOY
+      - STRICT_SLAB_GLUE_NEGATIVE_CONTROL
+  - id: QCCG_GLOBAL_CAUSAL_COBORDISM_COMPATIBILITY
+    title: "Arbitrary compositions of local Pachner cobordisms admit one consistent global causal foliation"
+    kind: physics
+    description: "Requires global time labels, manifold incidence and no time-skipping simplices after composing local 4D blocks."
+    depends_on:
+      - PACHNER_COBORDISM_COMPOSITION_TOY
+      - PACHNER_COBORDISM_OVERGLUE_NEGATIVE_CONTROL
+      - QCCG_STRICT_FOLIATION_COMPOSITION
+  - id: CAUSAL_14_SPACETIME_SLAB_TOY
+    title: "A strict adjacent-slice 4D slab realizes a spatial 1<->4 refinement"
+    kind: formal-numerical
+    description: "A tetrahedron-time staircase prism with an upper-slice stellar refinement gives the expected lower and refined upper spatial boundaries while preserving causal 4D manifold incidence."
+  - id: CAUSAL_14_SLAB_INVERSE_CONTROL
+    title: "The strict 1<->4 causal slab has an exact local inverse"
+    kind: formal-numerical
+    description: "Collapsing the upper refinement vertex reconstructs the original tetrahedron-time prism."
+  - id: CAUSAL_14_SLAB_TIME_SKIP_CONTROL
+    title: "Wrong-time refinement vertices are rejected in the strict 1<->4 slab"
+    kind: negative-control
+    description: "Moving the new upper vertex beyond the adjacent slice creates invalid nonlocal-time simplices."
+  - id: CAUSAL_23_SPACETIME_SLAB_REALIZATION
+    title: "A strict adjacent-slice 4D slab realizes a spatial 2<->3 Pachner transition"
+    kind: formal-numerical
+    description: "An explicit nine-simplex adjacent-slice slab has exactly the old two-tetrahedron lower boundary, new three-tetrahedron upper boundary, common lateral boundary and incidence-two interior."
+  - id: CAUSAL_23_SLAB_INVERSE_CONTROL
+    title: "The strict 2<->3 causal slab has an exact time-reversed inverse"
+    kind: formal-numerical
+    description: "Swapping lower and upper vertex copies gives a valid strict 3->2 slab with the reversed prescribed boundary."
+  - id: CAUSAL_23_SLAB_COMPLETENESS_CONTROL
+    title: "Missing 4-simplices are detected in the strict 2<->3 slab"
+    kind: negative-control
+    description: "Deleting any one required 4-simplex breaks the prescribed boundary or manifold incidence."
+  - id: CLOSED_SLICE_14_CAUSAL_SLAB_TOY
+    title: "A local 1->4 strict slab embeds into a complete closed S3 slice transition"
+    kind: formal-numerical
+    description: "A full S3 x interval product slab with one upper-boundary stellar refinement remains causal/manifold and has no mixed-time external boundary."
+  - id: CLOSED_SLICE_23_CAUSAL_SLAB_TOY
+    title: "A local 2->3 strict slab embeds into a complete closed S3 slice transition"
+    kind: formal-numerical
+    description: "Replacing the product subcomplex of a valid 2->3 pair by the nine-simplex strict slab yields a causal/manifold closed-slice transition with only full lower/upper S3 boundaries."
+  - id: CLOSED_SLICE_SLAB_COMPLETION_CONTROL
+    title: "Missing local slab simplices are detected after closed-slice completion"
+    kind: negative-control
+    description: "Deleting a required replacement simplex creates boundary or incidence defects in the completed closed-slice slab."
+  - id: GENERIC_LOCAL_SLAB_BUILDER_SCAN
+    title: "Constructive local strict-slab builders survive a multi-triangulation closed-S3 stress scan"
+    kind: numerical
+    description: "Deterministic random closed S3 triangulations are grown and both 1->4 and incidence-canonicalized 2->3 closed-slice slab builders are re-audited."
+  - id: LOCAL_SLAB_LABEL_GAUGE_CONTROL
+    title: "Numeric vertex labels are rejected as physical input to the local 2->3 slab builder"
+    kind: negative-control
+    description: "A naive numeric-order role assignment fails on a relabelled 2->3 move; incidence-based canonical roles preserve the label-gauge principle."
+  - id: QCCG_LOCAL_SPACETIME_SLAB_REALIZATION
+    title: "Every allowed neighboring spatial slice pair has a bounded-time 4D causal simplicial interpolation"
+    kind: physics
+    description: "Requires explicit strict-foliation local Pachner slabs plus globally composable causal foliation."
+    depends_on:
+      - PACHNER_4SIMPLEX_COBORDISM_TOY
+      - PACHNER_COBORDISM_INVERSE_CONTROL
+      - CAUSAL_14_SPACETIME_SLAB_TOY
+      - CAUSAL_14_SLAB_INVERSE_CONTROL
+      - CAUSAL_14_SLAB_TIME_SKIP_CONTROL
+      - CAUSAL_23_SPACETIME_SLAB_REALIZATION
+      - CAUSAL_23_SLAB_INVERSE_CONTROL
+      - CAUSAL_23_SLAB_COMPLETENESS_CONTROL
+      - CLOSED_SLICE_14_CAUSAL_SLAB_TOY
+      - CLOSED_SLICE_23_CAUSAL_SLAB_TOY
+      - CLOSED_SLICE_SLAB_COMPLETION_CONTROL
+      - GENERIC_LOCAL_SLAB_BUILDER_SCAN
+      - LOCAL_SLAB_LABEL_GAUGE_CONTROL
+  - id: CDT_MOVE4_VERTEX_REFINEMENT_TOY
+    title: "A local 4D causal vertex-changing 2->8 refinement move is realized"
+    kind: formal-numerical
+    description: "A spatial vertex is inserted within one slice and the surrounding (1,4)/(4,1) pair is refined to eight causal 4-simplices."
+  - id: CDT_MOVE4_BOUNDARY_PRESERVATION
+    title: "The local 2->8 causal refinement preserves the external subcomplex boundary and manifold incidence"
+    kind: formal-numerical
+    description: "The move preserves the tetrahedral boundary and adjacent-time simplex types."
+  - id: CDT_MOVE4_INVERSE_CONTROL
+    title: "The local vertex-changing causal move has an exact 8->2 inverse"
+    kind: formal-numerical
+    description: "The inserted spatial vertex has coordination eight and supports exact collapse."
+  - id: CDT_MOVE4_TIME_SKIP_NEGATIVE_CONTROL
+    title: "Wrong-time insertion is rejected by the causal move audit"
+    kind: negative-control
+    description: "A refinement vertex placed outside the adjacent slice structure creates invalid causal simplices."
+  - id: CDT_MOVE46_CONNECTIVITY_TOY
+    title: "A local 4D causal connectivity-changing 4->6 move is realized"
+    kind: formal-numerical
+    description: "A shared spatial triangle is replaced by its dual spatial edge while preserving the external causal subcomplex boundary."
+  - id: CDT_MOVE46_BOUNDARY_PRESERVATION
+    title: "The local 4->6 causal move preserves manifold incidence and adjacent-time simplex structure"
+    kind: formal-numerical
+    description: "The connectivity-changing move stays within the causal manifold class."
+  - id: CDT_MOVE46_INVERSE_CONTROL
+    title: "The local 4->6 causal connectivity move has an exact 6->4 inverse signal"
+    kind: formal-numerical
+    description: "The new spatial edge has coordination six."
+  - id: CDT_MOVE46_TIME_SKIP_NEGATIVE_CONTROL
+    title: "Wrong-time connectivity moves are rejected"
+    kind: negative-control
+    description: "Moving a spatial vertex outside the adjacent slice structure invalidates the causal simplex types."
+  - id: CDT_MOVE33_SELFDUAL_TOY
+    title: "A local 4D causal self-dual 3->3 move is realized"
+    kind: formal-numerical
+    description: "A timelike coordination-three triangle is exchanged with its dual timelike triangle without changing simplex count."
+  - id: CDT_MOVE33_BOUNDARY_PRESERVATION
+    title: "The local 3->3 causal move preserves manifold incidence and boundary"
+    kind: formal-numerical
+    description: "The self-dual move remains in the adjacent-time causal manifold class."
+  - id: CDT_MOVE33_TIME_SKIP_NEGATIVE_CONTROL
+    title: "Wrong-time self-dual moves are rejected"
+    kind: negative-control
+    description: "A vertex outside adjacent time slices invalidates the causal 3->3 move."
+  - id: SPATIAL_PACHNER_CONNECTIVITY_THEOREM
+    title: "Pachner theorem connects triangulations of a fixed closed PL 3-manifold"
+    kind: reference-theorem
+    description: "External mathematical input: finite bistellar/Pachner move connectivity; in dimension three the elementary move families are 1<->4 and 2<->3 with inverses."
+  - id: QCCG_SPATIAL_PACHNER_MOVESET_MATCH
+    title: "QCCG spatial slice dynamics contains the 3D Pachner move families"
+    kind: formal-numerical
+    description: "The audited spatial move architecture implements reversible 1<->4 and 2<->3 move families."
+  - id: QCCG_SPATIAL_SLICE_PL_CONNECTIVITY
+    title: "QCCG spatial slice triangulations are finitely connected within a fixed PL 3-manifold class"
+    kind: theorem-application
+    description: "Combines Pachner theorem with the audited QCCG spatial move family; does not imply full four-dimensional causal triangulation ergodicity."
+    depends_on:
+      - SPATIAL_PACHNER_CONNECTIVITY_THEOREM
+      - QCCG_SPATIAL_PACHNER_MOVESET_MATCH
+
+  - id: CDT_MIXED_MOVE_FIXED_BOUNDARY_CONNECTIVITY_TOY
+    title: "A finite mixed causal-move fixed-boundary sector is connected"
+    kind: formal-numerical
+    description: "A connected 4D manifold-with-boundary built from 2<->8, 4<->6 and 3<->3 local move patches has all eight local configurations in one move-graph component with identical external boundary."
+  - id: CDT_MOVE_FAMILY_CONNECTIVITY_CONTROL
+    title: "Removing a required move family is detected as finite-sector disconnection"
+    kind: negative-control
+    description: "The finite mixed-sector connectivity audit must split when one move family is removed."
+  - id: CDT_CONNECTIVITY_SCALING_TOY
+    title: "A constructive mixed-CDT fixed-boundary sector remains connected under finite size increase"
+    kind: formal-numerical
+    description: "Independent audited local move patches are glued through increasing depth and all 2^m configurations remain causal manifolds with one external boundary and a connected move graph."
+  - id: CDT_CONNECTIVITY_SCALING_NEGATIVE_CONTROL
+    title: "Removing one move bit splits the largest constructive connectivity sector"
+    kind: negative-control
+    description: "The largest audited mixed-patch state graph must split when its final local move direction is removed."
+  - id: CDT_MOVE_INVARIANT_AUDIT
+    title: "Simple f-vector invariants of the realized causal move set are audited"
+    kind: formal-numerical
+    description: "Move deltas are checked for Euler/incidence identities and unexpected component-wise modular conservation laws."
+  - id: CDT_BOUNDARY_MODULAR_INVARIANTS_EXPLAINED
+    title: "Visible f3 mod-5 and f4 mod-2 invariants are explained by fixed-boundary incidence"
+    kind: formal-numerical
+    description: "The apparent modular invariants follow from 2 Δf3 = 5 Δf4 with fixed tetrahedral boundary."
+  - id: QCCG_CDT_GENERIC_INVARIANT_SEARCH
+    title: "Generic nonlocal conserved invariants of causal triangulation sectors are excluded"
+    kind: physics
+    description: "Requires scalable state-graph sampling beyond f-vector invariants."
+  - id: QCCG_CDT_SCALABLE_CONNECTIVITY
+    title: "Fixed-boundary causal move graphs remain connected across increasing generic triangulation sectors"
+    kind: physics
+    description: "Requires scalable enumeration/sampling and conserved-invariant searches beyond the finite constructive glued family."
+    depends_on:
+      - CDT_CONNECTIVITY_SCALING_TOY
+      - CDT_CONNECTIVITY_SCALING_NEGATIVE_CONTROL
+      - CDT_MOVE_INVARIANT_AUDIT
+      - CDT_BOUNDARY_MODULAR_INVARIANTS_EXPLAINED
+      - QCCG_CDT_GENERIC_INVARIANT_SEARCH
+  - id: QCCG_CDT_MOVESET_ERGODICITY
+    title: "The realized local 4D causal move set is ergodic within the intended fixed-boundary causal triangulation sectors"
+    kind: physics
+    description: "Requires finite-state connectivity tests followed by scalable evidence; individual local move realizations are insufficient."
+    depends_on:
+      - CDT_MIXED_MOVE_FIXED_BOUNDARY_CONNECTIVITY_TOY
+      - CDT_MOVE_FAMILY_CONNECTIVITY_CONTROL
+      - QCCG_CDT_SCALABLE_CONNECTIVITY
+  - id: QCCG_CDT_LOCAL_MOVESET_COMPLETENESS
+    title: "QCCG realizes a complete reversible local 4D causal move set with fixed-boundary connectivity"
+    kind: physics
+    description: "Requires the audited 2<->4, 2<->8, 4<->6 and 3<->3 causal move architectures plus connectivity/ergodicity."
+    depends_on:
+      - CAUSAL_LOCAL_MOVESET_TOY
+      - CDT_MOVE4_VERTEX_REFINEMENT_TOY
+      - CDT_MOVE46_CONNECTIVITY_TOY
+      - CDT_MOVE33_SELFDUAL_TOY
+      - QCCG_CDT_MOVESET_ERGODICITY
+  - id: QCCG_TIME_LOCAL_CAUSAL_DYNAMICS
+    title: "QCCG has bounded-time-neighborhood local causal graph dynamics with independently evolving spatial slices"
+    kind: physics
+    description: "Requires slice-dependent geometries and a sufficiently complete foliation-preserving local 4D move set."
+    depends_on:
+      - TIME_LOCAL_SLICE_TRANSFER_TOY
+      - TIME_NONLOCAL_JUMP_NEGATIVE_CONTROL
+      - CDT_MOVE4_VERTEX_REFINEMENT_TOY
+      - CDT_MOVE4_BOUNDARY_PRESERVATION
+      - CDT_MOVE4_INVERSE_CONTROL
+      - CDT_MOVE4_TIME_SKIP_NEGATIVE_CONTROL
+      - CDT_MOVE46_CONNECTIVITY_TOY
+      - CDT_MOVE46_BOUNDARY_PRESERVATION
+      - CDT_MOVE46_INVERSE_CONTROL
+      - CDT_MOVE46_TIME_SKIP_NEGATIVE_CONTROL
+      - CDT_MOVE33_SELFDUAL_TOY
+      - CDT_MOVE33_BOUNDARY_PRESERVATION
+      - CDT_MOVE33_TIME_SKIP_NEGATIVE_CONTROL
+      - QCCG_CDT_LOCAL_MOVESET_COMPLETENESS
+  - id: CAUSAL_4D_SCALING_STABILITY
+    title: "The causal-move ensemble has a stable four-dimensional scaling phase at increasing volume and time extent"
+    kind: physics
+    description: "Requires finite-size scaling and coupling-window stability beyond a single finite ensemble."
+  - id: QCCG_CAUSAL_MOVE_DYNAMICS
+    title: "QCCG has a reversible local graph-changing dynamics closed within the causal foliated cellulation class"
+    kind: physics
+    description: "Requires an ergodic foliation-preserving move set and compatible Hermitian/weighted dynamics."
+    depends_on:
+      - CAUSAL_LOCAL_MOVESET_TOY
+      - CAUSAL_MOVE_HERMITIAN_TOY
+      - CAUSAL_MOVE_NEGATIVE_CONTROL
+      - CAUSAL_MOVE_ENSEMBLE_SCAN_EXECUTED
+  - id: QCCG_CAUSAL_CRITICAL_CELLULATION_DYNAMICS
+    title: "QCCG realizes a causal/foliated weighted cellulation dynamics with a stable 4D critical phase"
+    kind: physics
+    description: "Requires stronger geometric/causal structure beyond the failed uniform and simple Euclidean Regge-weighted ensembles."
+    depends_on:
+      - CAUSAL_FOLIATED_4D_ARCHITECTURE
+      - CAUSAL_FOLIATION_NEGATIVE_CONTROL
+      - QCCG_CAUSAL_MOVE_DYNAMICS
+      - QCCG_TIME_LOCAL_CAUSAL_DYNAMICS
+      - CAUSAL_4D_SCALING_STABILITY
+  - id: QCCG_WEIGHTED_CRITICAL_CELLULATION_ENSEMBLE
+    title: "QCCG specifies and realizes a weighted critical cellulation ensemble with 4D manifold-like scaling"
+    kind: physics
+    description: "Requires reversible graph dynamics and a stable four-dimensional critical phase after the simple Regge-weighted repair has been stress-tested."
+    depends_on:
+      - REGGE_WEIGHTED_PACHNER_SCAN_EXECUTED
+      - SIMPLE_REGGE_WEIGHT_REPAIR_INSUFFICIENT
+      - QCCG_CAUSAL_CRITICAL_CELLULATION_DYNAMICS
+  - id: QCCG_CELLULATION_GEOMETRY_MEASURED
+    title: "Actual QCCG cellulation ensembles are measured with the calibrated geometry diagnostics"
+    kind: physics
+    description: "Requires increasing-size QCCG-generated weighted cellulation ensembles, not reference lattices or unweighted Pachner negative controls."
+    depends_on:
+      - PACHNER_4D_MANIFOLD_TOPOLOGY_CONTROL
+      - UNWEIGHTED_PACHNER_DIMENSION_FAILURE_DETECTED
+      - PACHNER_MOVESET_REPAIR_INSUFFICIENT
+      - QCCG_WEIGHTED_CRITICAL_CELLULATION_ENSEMBLE
+  - id: MANIFOLD_LIKENESS_SCALING
+    title: "The cellulation liquid has a smooth 3+1 Lorentzian manifold-like scaling phase"
+    kind: physics
+    description: "Requires scaling evidence for dimension, signature, locality and manifold-likeness."
+    depends_on:
+      - MANIFOLD_DIAGNOSTIC_CALIBRATED
+      - MANIFOLD_DIMENSION_CONTROLS
+      - QCCG_CELLULATION_GEOMETRY_MEASURED
+  - id: CONTINUUM_MANIFOLD_PHASE
+    title: "The critical phase reconstructs a smooth 3+1 Lorentzian continuum"
+    kind: physics
+    description: "Requires manifold-likeness, signature and continuum reconstruction beyond the finite cellulation-liquid pilot."
+    depends_on:
+      - CELLULATION_LIQUID_ZERO_MODE
+      - CELLULATION_CONNECTIVITY_CONTROL
+      - MANIFOLD_LIKENESS_SCALING
+  - id: COMMON_CAUSAL_PROPAGATOR
+    title: "A common microscopic causal propagation coefficient is declared"
+    kind: physical-choice
+    description: "Tensor and probe-matter sectors use one bare propagation coefficient; this is a model principle rather than an RG result."
+  - id: BARE_SPATIAL_ISOTROPY
+    title: "The selected quadratic parent has a common isotropic bare cone"
+    kind: numerical
+    description: "Cubic-symmetric spatial links and the shared propagation coefficient give the audited species one bare z=1 cone."
+  - id: LATTICE_LV_IRRELEVANT
+    title: "Higher-derivative lattice Lorentz violation is irrelevant"
+    kind: rg-analytic
+    description: "Four-derivative lattice corrections scale away relative to the two-derivative kinetic term."
+  - id: MARGINAL_LV_STABILITY
+    title: "The common cone is stable against marginal/relevant Lorentz-violating deformations"
+    kind: physics
+    description: "Requires an interacting RG or symmetry argument; canonical scaling alone leaves velocity anisotropies marginal."
+  - id: LORENTZ_UNIVERSALITY
+    title: "All physical sectors share an emergent z=1 light cone"
+    kind: physics
+    description: "Requires exclusion of relevant/marginal Lorentz-violating operators and equality of matter/gravity characteristics."
+    depends_on:
+      - id: COMMON_CAUSAL_PROPAGATOR
+        accept: [PASS, MODEL_CHOICE]
+      - BARE_SPATIAL_ISOTROPY
+      - LATTICE_LV_IRRELEVANT
+      - MARGINAL_LV_STABILITY
+  - id: LINEARIZED_CONSTRAINT_ALGEBRA
+    title: "The linearized symmetric-tensor target has four first-class constraints"
+    kind: formal-numerical
+    description: "Hamiltonian plus momentum constraints have rank four and close at the linearized continuum target."
+  - id: TT_PROJECTOR_RANK2
+    title: "The linearized symmetric-tensor target has a rank-two TT physical projector"
+    kind: formal-numerical
+    description: "The continuum target TT projector is transverse, traceless, idempotent and rank two."
+  - id: HDA_NONABELIAN_TARGET
+    title: "The nonlinear GR hypersurface-deformation target is generically non-Abelian"
+    kind: formal
+    description: "Generic Hamiltonian-constraint smearings close into a diffeomorphism generator with metric-dependent structure functions."
+  - id: COMMUTING_PROJECTOR_HDA_REJECTED
+    title: "A mutually commuting nonlinear Hamiltonian-projector completion is rejected"
+    kind: negative-control
+    description: "A zero Hamiltonian-constraint commutator cannot reproduce the generic GR hypersurface-deformation target."
+  - id: STRUCTURE_FUNCTION_CLOSURE_TOY
+    title: "A finite-dimensional noncommuting constraint toy closes with an operator-valued structure function"
+    kind: formal-numerical
+    description: "A scoped finite Hilbert-space example demonstrates exact noncommuting closure, Jacobi identity and a nontrivial common kernel."
+  - id: CONSTRAINT_KERNEL_GAP_TOY
+    title: "The structure-function toy has a gapped constraint-penalty Hamiltonian preserving the physical kernel"
+    kind: formal-numerical
+    description: "The toy constraint penalty is positive, gapped above the common kernel and commutes with the toy constraints."
+  - id: STRUCTURE_FUNCTION_NEGATIVE_CONTROL
+    title: "An incorrect constant structure function is detected as a closure failure"
+    kind: negative-control
+    description: "Replacing the sector-dependent operator structure function by a constant fails the exact closure relation."
+  - id: FINITE_GLOBAL_CCR_NO_GO
+    title: "Exact global canonical commutators are excluded on the finite microscopic Hilbert space"
+    kind: formal
+    description: "The finite-dimensional trace identity forbids an exact global CCR and motivates emergent code-subspace closure."
+  - id: LOW_ENERGY_STRUCTURE_FUNCTION_CONVERGENCE
+    title: "A localized finite-Weyl code subspace converges to a noncentral continuum commutator"
+    kind: numerical
+    description: "For localized low-energy packets, the finite spectral derivative reproduces [P,X^2]≈-2iX with decreasing residual."
+  - id: STRUCTURE_FUNCTION_PATCH_CONTROL
+    title: "The code-subspace structure-function approximation fails near the periodic chart boundary"
+    kind: negative-control
+    description: "Boundary-localized packets retain a large residual, preventing promotion to an exact global finite-Hilbert identity."
+  - id: ONE_D_HDA_STRUCTURE_FUNCTION_CODE_MATCH
+    title: "A finite-Weyl low-energy code subspace reproduces a smeared 1D HDA analogue with noncentral metric-like structure function"
+    kind: numerical
+    description: "Symmetrized finite spectral/Weyl generators reproduce [H[N],H[M]]≈-i D[f(X)^2(NM'-MN')] on smooth low-Fourier states."
+  - id: ONE_D_HDA_ALIASING_NEGATIVE_CONTROL
+    title: "Near-Nyquist states are detected as outside the 1D HDA code-subspace regime"
+    kind: negative-control
+    description: "Aliasing produces a large commutator residual near the finite spectral cutoff."
+  - id: GR_HDA_STRUCTURE_FUNCTION_MATCH
+    title: "The finite-Weyl nonlinear constraints reproduce the dynamical GR HDA structure functions"
+    kind: physics
+    description: "Requires inverse-metric/operator-valued structure functions with the correct smearing dependence, not merely a central toy operator or elementary code-subspace commutator."
+    depends_on:
+      - FINITE_GLOBAL_CCR_NO_GO
+      - LOW_ENERGY_STRUCTURE_FUNCTION_CONVERGENCE
+      - STRUCTURE_FUNCTION_PATCH_CONTROL
+      - ONE_D_HDA_STRUCTURE_FUNCTION_CODE_MATCH
+      - ONE_D_HDA_ALIASING_NEGATIVE_CONTROL
+  - id: NONLINEAR_CONSTRAINT_CLOSURE
+    title: "The nonlinear interacting constraint/BRST algebra closes anomaly-free"
+    kind: physics
+    description: "Requires noncommuting constraint generators with the correct operator/field-dependent structure functions and physical-kernel preservation."
+    depends_on:
+      - HDA_NONABELIAN_TARGET
+      - COMMUTING_PROJECTOR_HDA_REJECTED
+      - STRUCTURE_FUNCTION_CLOSURE_TOY
+      - CONSTRAINT_KERNEL_GAP_TOY
+      - STRUCTURE_FUNCTION_NEGATIVE_CONTROL
+      - GR_HDA_STRUCTURE_FUNCTION_MATCH
+  - id: CONTINUUM_DIFFEO_BRST
+    title: "Continuum diffeomorphism/BRST identities emerge"
+    kind: physics
+    description: "Requires continuum mSTI/mNI or equivalent gauge identities; graph relabeling alone is insufficient."
+    depends_on:
+      - LINEARIZED_CONSTRAINT_ALGEBRA
+      - TT_PROJECTOR_RANK2
+      - NONLINEAR_CONSTRAINT_CLOSURE
+  - id: FINITE_PARENT_UNITARITY
+    title: "The finite audited parent Hamiltonian generates unitary evolution"
+    kind: formal-numerical
+    description: "Finite Weyl generators are unitary and local parent terms are Hermitian on every finite audited lattice."
+  - id: QUADRATIC_SCALING_ISOMETRY
+    title: "The free band-limited quadratic sector has an isometric continuum scaling map"
+    kind: numerical
+    description: "Fixed low Fourier modes preserve norm and converge to continuum wave evolution as the lattice is refined."
+  - id: INTERACTING_CODE_INTERTWINER_TOY
+    title: "A finite interacting microscopic code embeds isometrically into a coarse Hilbert space"
+    kind: formal-numerical
+    description: "A two-body microscopic Hamiltonian exactly preserves a constrained code subspace and intertwines with a coarse Hamiltonian."
+  - id: SCALING_LEAKAGE_NEGATIVE_CONTROL
+    title: "A microscopic perturbation that violates the code constraint is detected as scaling leakage"
+    kind: negative-control
+    description: "A single-site perturbation must leak outside the embedded code and fail the constraint commutator."
+  - id: GRAPH_CHANGE_INTERTWINER_TOY
+    title: "A coarse/refined graph-change move preserves a physical code isometrically"
+    kind: formal-numerical
+    description: "A finite direct-sum cellulation toy exactly maps a coarse logical state to a refined constrained code and back."
+  - id: GRAPH_CHANGE_LEAKAGE_NEGATIVE_CONTROL
+    title: "An incorrect refinement map is detected as graph-change leakage"
+    kind: negative-control
+    description: "A wrong coarse-to-refined map must leak into the constraint-violating refined sector."
+  - id: REFINEMENT_PATH_COHERENCE_TOY
+    title: "Local refinement isometries are path-coherent in a finite code toy"
+    kind: formal-numerical
+    description: "Two different one-to-three refinement paths agree exactly on the physical repetition code and preserve the logical intertwiner."
+  - id: REFINEMENT_COHERENCE_NEGATIVE_CONTROL
+    title: "A child-dependent refinement phase is detected as path dependence"
+    kind: negative-control
+    description: "An inconsistent local refinement convention produces distinct physical embeddings for different refinement histories."
+  - id: QCCG_CELLULATION_REFINEMENT_COHERENCE
+    title: "The full QCCG move groupoid has a coherent cellulation-independent physical embedding"
+    kind: physics
+    description: "Requires path/loop independence for a generating set of actual Pachner/cellulation move relations."
+  - id: QCCG_GRAPH_CHANGING_SCALING_MAP
+    title: "The actual graph-changing QCCG physical Hilbert space has an isometric coarse-graining intertwiner"
+    kind: physics
+    description: "Requires a compatible coherent family of scaling maps over the actual cellulation graph, not only finite direct-sum toys."
+    depends_on:
+      - GRAPH_CHANGE_INTERTWINER_TOY
+      - GRAPH_CHANGE_LEAKAGE_NEGATIVE_CONTROL
+      - REFINEMENT_PATH_COHERENCE_TOY
+      - REFINEMENT_COHERENCE_NEGATIVE_CONTROL
+      - QCCG_CELLULATION_REFINEMENT_COHERENCE
+  - id: INTERACTING_PHYSICAL_SCALING_UNITARITY
+    title: "The interacting graph-changing physical Hilbert space has a controlled unitary scaling limit"
+    kind: physics
+    description: "Requires an isometric continuum map for the constrained interacting physical state space."
+    depends_on:
+      - INTERACTING_CODE_INTERTWINER_TOY
+      - SCALING_LEAKAGE_NEGATIVE_CONTROL
+      - QCCG_GRAPH_CHANGING_SCALING_MAP
+  - id: PHYSICAL_UNITARITY_SCALING_LIMIT
+    title: "Microscopic unitarity descends isometrically to the continuum physical Hilbert space"
+    kind: physics
+    description: "Requires a controlled scaling map and physical spectral/unitarity checks."
+    depends_on:
+      - FINITE_PARENT_UNITARITY
+      - QUADRATIC_SCALING_ISOMETRY
+      - INTERACTING_PHYSICAL_SCALING_UNITARITY
+  - id: CUBIC_VERTEX_OBSTRUCTION_DETECTED
+    title: "The cosine-only parent lacks a cubic collective vertex around the flat vacuum"
+    kind: negative-control
+    description: "The original even cosine parent has vanishing third derivative at the vacuum."
+  - id: GENERIC_CUBIC_INTERACTION_REPAIR
+    title: "A finite-Weyl three-body term adds cubic nonlinearity without changing the quadratic Hessian"
+    kind: formal-numerical
+    description: "The repair is Hermitian, stationary at the flat vacuum, has zero quadratic correction and nonzero cubic derivative in the audited weak-coupling regime."
+  - id: CUBIC_VACUUM_STABILITY_CONTROL
+    title: "The cubic repair's strong-coupling vacuum instability is detected"
+    kind: negative-control
+    description: "A stronger coupling must be able to shift the discrete vacuum, demonstrating a genuine stability bound."
+  - id: NONDERIVATIVE_CUBIC_MISMATCH_DETECTED
+    title: "A non-derivative local cubic is rejected as insufficient for the GR-like three-graviton structure"
+    kind: negative-control
+    description: "The earlier local cubic acts on a uniform collective mode and lacks the required two-derivative structure."
+  - id: DERIVATIVE_CUBIC_REPAIR
+    title: "A link-based finite-Weyl cubic yields a field-times-two-derivatives continuum structure"
+    kind: formal-numerical
+    description: "The repair has zero linear/quadratic variation, nonzero cubic variation and vanishes on spatially uniform modes."
+  - id: CUBIC_ONSHELL_WARD_UNDERDETERMINATION_DETECTED
+    title: "On-shell three-point pure-gauge Ward tests are detected to underdetermine the relative cubic coefficients"
+    kind: negative-control
+    description: "Within the audited two-structure Gamma-Gamma ansatz, each structure separately passes the selected on-shell pure-gauge replacement test, so the coefficient ratio is not selected."
+  - id: CUBIC_OFFSHELL_OR_FOURPOINT_SELECTOR
+    title: "A stronger off-shell Noether or four-point consistency condition selects the physical cubic coefficients"
+    kind: physics
+    description: "Requires a selector stronger than on-shell three-point gauge replacement, such as off-shell Noether consistency or four-point factorization/unitarity."
+  - id: QCCG_CUBIC_LARGER_BASIS_UNIQUENESS
+    title: "The complete independent local two-derivative spin-2 cubic basis is reduced and its physical equivalence class is unique"
+    kind: physics
+    description: "Requires enumeration modulo integrations by parts, equations of motion and field redefinitions."
+  - id: GR_CUBIC_WARD_KINEMATIC_CONTROL
+    title: "A nonzero Einstein-Hilbert cubic graviton target is calibrated at selected complex on-shell kinematics"
+    kind: formal-numerical
+    description: "The selected three-point momenta are null, conserve momentum and give a nonzero physical EH cubic coefficient."
+  - id: GR_CUBIC_GAUGE_REPLACEMENT_CONTROL
+    title: "The calibrated Einstein-Hilbert cubic target vanishes under pure-gauge external polarization replacement"
+    kind: formal-numerical
+    description: "At the audited complex on-shell kinematics, replacing each external graviton polarization by k_(mu xi_(nu)+k_(nu xi_(mu) gives zero cubic coefficient."
+  - id: QCCG_TENSOR_CUBIC_VERTEX_CONSTRUCTED
+    title: "QCCG has an explicit finite-Weyl tensor-index cubic graviton vertex construction"
+    kind: formal-numerical
+    description: "A finite-Weyl sine-coordinate, local lattice discretization of the EH Gamma-Gamma cubic tensor structure is explicitly constructed."
+  - id: QCCG_CUBIC_SELECTED_WARD_MATCH
+    title: "The finite-Weyl tensor cubic matches the calibrated GR Ward target at selected on-shell kinematics"
+    kind: numerical
+    description: "The selected lattice three-point amplitude converges to the EH target and pure-gauge replacements vanish."
+  - id: QCCG_CUBIC_MULTI_KINEMATICS_STRESS
+    title: "The finite-Weyl tensor cubic survives a multi-kinematics on-shell Ward stress test"
+    kind: numerical
+    description: "Several independent complex massless three-point configurations must show physical-amplitude convergence and gauge-replacement suppression."
+  - id: LATTICE_WARD_RESIDUAL_OA2
+    title: "The symmetric local lattice derivative has an O(a^2) generic Ward/momentum-additivity defect"
+    kind: formal-numerical
+    description: "Under continuum momentum conservation, the symmetric derivative symbol violates additivity only at quadratic order in lattice spacing."
+  - id: FORWARD_DIFFERENCE_WARD_OA_NEGATIVE_CONTROL
+    title: "A forward-difference derivative is rejected by its larger O(a) Ward defect"
+    kind: negative-control
+    description: "The first-order lattice derivative has only linear-in-a restoration, calibrating the improvement of the symmetric discretization."
+  - id: FINITE_LATTICE_EXACT_DIFFEO_WARD
+    title: "Exact microscopic finite-spacing diffeomorphism Ward identities hold"
+    kind: physics
+    description: "The current local lattice derivative does not satisfy this; continuum restoration rather than exact finite-a symmetry is required."
+  - id: FINITE_WEYL_CUBIC_COEFFICIENT_EXACT
+    title: "Finite-Weyl sine coordinates leave the cubic field coefficient exact"
+    kind: formal-numerical
+    description: "Finite-delta corrections to the sine coordinate first modify quintic and higher field orders, not the cubic coefficient."
+  - id: TENSOR_CUBIC_OPERATOR_CONTINUUM_OA2
+    title: "The generic engineered h(dh)(dh) cubic operator converges to its continuum kernel at O(a^2)"
+    kind: formal-numerical
+    description: "Symmetric local derivatives produce only quadratic-in-spacing corrections to the generic cubic momentum kernel."
+  - id: TENSOR_CUBIC_FORWARD_OA_NEGATIVE_CONTROL
+    title: "A forward-derivative cubic discretization is rejected by its O(a) operator error"
+    kind: negative-control
+    description: "The lower-order discretization gives only linear-in-spacing restoration."
+  - id: QCCG_CUBIC_RG_DERIVATION
+    title: "Microscopic QCCG coarse graining selects the EH tensor cubic coefficients"
+    kind: physics
+    description: "Requires deriving the cubic tensor structure from a generic finite-Weyl interaction basis rather than inserting the Einstein-Hilbert target."
+  - id: QCCG_FULL_CUBIC_WARD_MATCH
+    title: "The QCCG tensor cubic satisfies the full nonlinear Ward identities and is selected by the microscopic RG flow"
+    kind: physics
+    description: "Requires all-momenta/all-polarization nonlinear Ward consistency and derivation from QCCG coarse graining rather than insertion of the EH tensor structure."
+    depends_on:
+      - QCCG_CUBIC_MULTI_KINEMATICS_STRESS
+      - LATTICE_WARD_RESIDUAL_OA2
+      - FORWARD_DIFFERENCE_WARD_OA_NEGATIVE_CONTROL
+      - FINITE_WEYL_CUBIC_COEFFICIENT_EXACT
+      - TENSOR_CUBIC_OPERATOR_CONTINUUM_OA2
+      - TENSOR_CUBIC_FORWARD_OA_NEGATIVE_CONTROL
+      - QCCG_CUBIC_RG_DERIVATION
+  - id: GR_CUBIC_VERTEX_MATCH
+    title: "The microscopic cubic interaction matches the physical GR three-graviton Ward identities"
+    kind: physics
+    description: "Requires full tensor-index nonlinear diffeomorphism/soft-graviton consistency, not merely a derivative cubic scalar proxy."
+    depends_on:
+      - NONDERIVATIVE_CUBIC_MISMATCH_DETECTED
+      - DERIVATIVE_CUBIC_REPAIR
+      - GR_CUBIC_WARD_KINEMATIC_CONTROL
+      - GR_CUBIC_GAUGE_REPLACEMENT_CONTROL
+      - QCCG_TENSOR_CUBIC_VERTEX_CONSTRUCTED
+      - QCCG_CUBIC_SELECTED_WARD_MATCH
+      - QCCG_FULL_CUBIC_WARD_MATCH
+  - id: CDT_TRANSFER_FITTER_CALIBRATED
+    title: "The CDT reduced-transfer kinetic fitter is calibrated"
+    kind: formal-numerical
+    description: "A synthetic transfer matrix with the published CDT kinetic form recovers its injected coefficient before QCCG data are judged."
+  - id: QCCG_VOLUME_REDUCED_TRANSFER_CONSTRUCTED
+    title: "A QCCG microscopic transfer kernel is reduced to spatial-volume sectors"
+    kind: numerical
+    description: "The finite QCCG spatial-Pachner state graph defines a symmetric Euclidean kernel which is coarse-grained to N3 sectors using a CDT-like two-slice probability construction."
+  - id: QCCG_CDT_BASELINE_KINETIC_MATCH
+    title: "The unweighted finite QCCG baseline transfer matrix matches the CDT de Sitter kinetic law"
+    kind: physics
+    description: "A tiny unweighted state graph is only a baseline; failure does not exclude a large-volume diffusive match."
+  - id: QCCG_CDT_BASELINE_MISMATCH_DIAGNOSTIC
+    title: "A finite QCCG/CDT baseline mismatch is retained instead of tuned away"
+    kind: negative-control
+    description: "If the calibrated fitter rejects the tiny unweighted QCCG kernel, the mismatch remains explicit evidence."
+  - id: QCCG_PACHNER_EXTENSIVE_VOLUME_DIFFUSION
+    title: "QCCG local Pachner move counting contains an exact extensive N3 volume-diffusion contribution"
+    kind: formal-numerical
+    description: "One physical 1->4 move site per tetrahedron yields an exact contribution proportional to N3 to the local second volume-jump moment."
+  - id: QCCG_VOLUME_DIFFUSION_SCALING_DIAGNOSTIC
+    title: "Finite QCCG volume-jump moments remain O(N3)"
+    kind: numerical
+    description: "Across the audited finite state graph the equal-site-rate second volume-jump moment divided by N3 stays bounded."
+  - id: QCCG_LARGE_VOLUME_PACHNER_SCAN
+    title: "Increasing closed-S3 QCCG triangulations are generated for large-volume move-count scaling"
+    kind: numerical
+    description: "Multiple geometry-mixed triangulations are audited at N3=20,41,80,119 while preserving manifold incidence."
+  - id: QCCG_LARGE_VOLUME_DIFFUSION_EXPONENT
+    title: "The QCCG Pachner second volume-jump moment is extensive at increasing N3"
+    kind: numerical
+    description: "The equal-local-rate second jump moment is fitted to D2=A*N3^p and must approach p=1 with high log-log fit quality."
+  - id: QCCG_MESOSCOPIC_VOLUME_CLT_SCALING
+    title: "Mesoscopic QCCG volume-jump cumulants scale toward a Gaussian regime"
+    kind: numerical
+    description: "At tau_N=N3^(-1/2), standardized skewness and excess kurtosis decrease with the expected central-limit powers while relative drift vanishes."
+  - id: QCCG_FROZEN_GENERATOR_GAUSSIANIZATION
+    title: "The frozen local QCCG Pachner generator Gaussianizes in the mesoscopic scaling window"
+    kind: numerical
+    description: "Higher standardized volume cumulants vanish on increasing triangulations at fixed local generator data."
+  - id: QCCG_TIME_EVOLVED_VOLUME_DIFFUSION
+    title: "State-dependent QCCG Pachner evolution has an extensive finite-time volume-diffusion window"
+    kind: numerical
+    description: "Gillespie evolution with unit rate per physical local Pachner move yields Var(Delta N3) approximately proportional to N3 over preregistered short-time blocks."
+  - id: QCCG_TIME_EVOLVED_GAUSSIAN_WINDOW
+    title: "State-dependent QCCG volume transitions have a robust near-Gaussian large-volume window"
+    kind: numerical
+    description: "At increasing N3, variance scaling, skewness and robust quantile-shape diagnostics are compatible with a local Gaussian transition window."
+  - id: QCCG_CDT_DIFFUSIVE_KINETIC_LIMIT
+    title: "Increasing QCCG ensembles reach a Gaussian diffusive volume regime with CDT kinetic scaling"
+    kind: physics
+    description: "Requires the fully state-dependent time-evolved transition histograms to retain Gaussianity and Var(Delta N3|N3) proportional to N3 under time blocking."
+    depends_on:
+      - QCCG_PACHNER_EXTENSIVE_VOLUME_DIFFUSION
+      - QCCG_VOLUME_DIFFUSION_SCALING_DIAGNOSTIC
+      - QCCG_LARGE_VOLUME_PACHNER_SCAN
+      - QCCG_LARGE_VOLUME_DIFFUSION_EXPONENT
+      - QCCG_MESOSCOPIC_VOLUME_CLT_SCALING
+      - QCCG_FROZEN_GENERATOR_GAUSSIANIZATION
+      - QCCG_TIME_EVOLVED_VOLUME_DIFFUSION
+      - QCCG_TIME_EVOLVED_GAUSSIAN_WINDOW
+  - id: QCCG_S3_CURVATURE_POTENTIAL_SCALING
+    title: "Round-S3 intrinsic curvature gives an N3^(1/3) coarse potential"
+    kind: formal
+    description: "For round S3 slices the integrated intrinsic scalar curvature scales as V3^(1/3)."
+  - id: QCCG_DIFFUSION_CDT_KINETIC_STRUCTURE
+    title: "Extensive volume diffusion produces the CDT kinetic denominator in the local Gaussian limit"
+    kind: formal
+    description: "If D(N3) is proportional to N3, the symmetric near-diagonal Gaussian exponent is proportional to (Delta N3)^2/(N3+N3')."
+  - id: QCCG_CDT_ACTION_STRUCTURAL_MATCH
+    title: "QCCG ingredients reproduce the functional structure of the CDT de Sitter minisuperspace action"
+    kind: formal-analytic
+    description: "Conditional on the large-volume diffusive regime and S3-like slices, the kinetic denominator, N3^(1/3) curvature term and linear volume term have the CDT functional form."
+  - id: QCCG_CDT_KINETIC_COEFFICIENT_STABILITY
+    title: "QCCG volume dynamics yields a stable CDT-type kinetic coefficient per microscopic time unit"
+    kind: numerical
+    description: "Requires Var(Delta N3)/(N3*tau) to be approximately volume-independent and stable across increasing short-time blocks."
+  - id: QCCG_CDT_TIME_UNIT_MAP
+    title: "The QCCG microscopic time unit is mapped to the CDT effective proper-time unit or an equivalent dimensionless kinetic coordinate"
+    kind: physics
+    description: "Required before the numerical QCCG kinetic coefficient can be identified directly with CDT Gamma."
+  - id: QCCG_REGGE_SPATIAL_CURVATURE_WEIGHT
+    title: "A local Regge curvature weight is defined on QCCG spatial slices"
+    kind: formal-numerical
+    description: "Equilateral 3D Regge curvature is computed from edge deficit angles and its change is explicit for local spatial Pachner moves."
+  - id: QCCG_CURVATURE_WEIGHT_DETAILED_BALANCE
+    title: "The curvature-weighted local QCCG move generator obeys pairwise detailed balance"
+    kind: formal-numerical
+    description: "Rates exp(-Delta S/2) satisfy detailed balance with weight exp(-S) on each reversible audited move edge."
+  - id: QCCG_CURVATURE_POTENTIAL_RESOLUTION_SCAN
+    title: "A Regge-curvature coupling scan resolves the CDT-inspired curvature-potential derivative better than the unweighted baseline"
+    kind: numerical
+    description: "A preregistered negative-curvature-coupling region improves the N3^(-2/3) potential-derivative fit without inserting the CDT potential directly."
+  - id: QCCG_CURVATURE_VOLUME_CRITICAL_LINE
+    title: "A zero-drift curvature/volume critical line is constructed from QCCG move counts"
+    kind: numerical
+    description: "For each preregistered negative spatial-curvature coupling, the volume/cosmological coupling is fixed by vanishing large-volume drift without using CDT effective coefficients."
+  - id: QCCG_CURVATURE_CRITICAL_CANDIDATE
+    title: "A curvature-weighted critical-line candidate is selected before time-evolved confirmation"
+    kind: numerical
+    description: "A candidate point is selected by preregistered local potential-shape criteria on the zero-drift line."
+  - id: QCCG_CURVATURE_WEIGHTED_TIME_EXPLORATION
+    title: "Independent-seed curvature-weighted QCCG time evolution is measured before confirmation thresholds are frozen"
+    kind: numerical
+    description: "Exploratory weighted evolution records kinetic/potential fit distributions but cannot promote the confirmation gate."
+  - id: QCCG_FIXED_VOLUME_CURVATURE_THERMALIZATION
+    title: "Curvature-weighted internal geometry is thermalized conditionally at fixed N3"
+    kind: numerical
+    description: "A volume-fixed Metropolis-Hastings chain samples exact-N3 spatial triangulations with conditional weight proportional to exp(-kappa_R R_Regge)."
+  - id: QCCG_INTERNAL_GEOMETRY_RELAXATION_DIAGNOSTIC
+    title: "Internal geometry relaxation relative to the original seed ensemble is detected"
+    kind: negative-control
+    description: "Equilibrated exact-volume samples change internal Pachner move-count statistics relative to the previous deterministic/mildly mixed seed geometries."
+  - id: QCCG_EQUILIBRATED_CRITICAL_LINE
+    title: "The curvature/volume zero-drift line is recomputed on curvature-equilibrated fixed-volume geometry ensembles"
+    kind: numerical
+    description: "The equilibrium-conditioned move counts determine a corrected volume/cosmological coupling without fitting CDT effective coefficients."
+  - id: QCCG_CRITICAL_LINE_SEED_BIAS_DETECTED
+    title: "The pre-equilibration zero-drift line is detected to shift after internal-geometry thermalization"
+    kind: negative-control
+    description: "A nonzero shift diagnoses seed-geometry bias in the earlier critical-line estimate."
+  - id: QCCG_EQUILIBRATED_CRITICAL_TIME_CONFIRMATION
+    title: "The original preregistered CDT kinetic/potential criteria are confirmed at the equilibrated critical-line coupling"
+    kind: physics
+    description: "Requires fresh conditional-geometry thermalization and fresh dynamics at the equilibrated zero-drift coupling."
+  - id: QCCG_EQUILIBRATED_CDT_COEFFICIENT_CONFIRMATION
+    title: "CDT kinetic and potential coefficient stability is confirmed from curvature-equilibrated fixed-volume initial slices"
+    kind: physics
+    description: "Requires fresh weighted time evolution initialized from independent fixed-volume equilibrium geometries and the preregistered kinetic/potential gates."
+  - id: QCCG_CURVATURE_CRITICAL_TIME_CONFIRMATION
+    title: "The selected curvature-weighted critical point is confirmed by independent time-evolved QCCG dynamics"
+    kind: physics
+    description: "Requires independent-seed weighted evolution with stable mu/lambda and preserved kinetic diffusion."
+  - id: QCCG_CURVATURE_WEIGHTED_DYNAMICS
+    title: "Time-evolved curvature-weighted QCCG dynamics yields stable CDT effective potential coefficients"
+    kind: physics
+    description: "Requires state-dependent weighted evolution with stable mu/lambda, preserved diffusive kinetic scaling and a de Sitter-like volume profile."
+    depends_on:
+      - QCCG_REGGE_SPATIAL_CURVATURE_WEIGHT
+      - QCCG_CURVATURE_WEIGHT_DETAILED_BALANCE
+      - QCCG_CURVATURE_POTENTIAL_RESOLUTION_SCAN
+      - QCCG_CURVATURE_VOLUME_CRITICAL_LINE
+      - QCCG_CURVATURE_CRITICAL_CANDIDATE
+      - QCCG_CURVATURE_CRITICAL_TIME_CONFIRMATION
+  - id: QCCG_CDT_POTENTIAL_DRIFT_DIAGNOSTIC
+    title: "QCCG microscopic volume drift/diffusion is converted to an effective potential derivative"
+    kind: numerical
+    description: "Uses the local Fokker-Planck drift/diffusion relation to test whether the current QCCG dynamics resolves the CDT-inspired curvature-plus-volume potential structure."
+  - id: QCCG_CDT_CURVATURE_POTENTIAL_NOT_RESOLVED
+    title: "The unweighted QCCG move dynamics is diagnosed as not resolving a stable N3^(1/3) curvature potential"
+    kind: negative-control
+    description: "A stable linear-volume drift without a well-resolved N3^(-2/3) derivative term is retained as evidence of missing geometric weighting."
+  - id: QCCG_CDT_POTENTIAL_PROFILE_MATCH
+    title: "QCCG dynamically yields stable curvature/volume coefficients and a de Sitter-type volume profile"
+    kind: physics
+    description: "Requires large-volume fits of mu, lambda and the profile parameter omega (or an equivalent potential/profile observable) without inserting the CDT potential by hand."
+    depends_on:
+      - QCCG_CDT_POTENTIAL_DRIFT_DIAGNOSTIC
+      - QCCG_CURVATURE_WEIGHTED_DYNAMICS
+  - id: QCCG_EQUILIBRATED_CRITICAL_LINE_TOY
+    title: "Equilibrated zero-drift QCCG critical-line reconstruction"
+    rank: 49
+    statement: "The curvature/volume critical line is recomputed from exact-volume curvature-equilibrated geometry ensembles, retaining a positive CDT-inspired curvature-plus-volume potential shape and exposing the prior seed-geometry bias."
+    requires:
+      - QCCG_EQUILIBRATED_CRITICAL_LINE
+      - QCCG_CRITICAL_LINE_SEED_BIAS_DETECTED
+
+  - id: QCCG_FIXED_VOLUME_CURVATURE_EQUILIBRATION_TOY
+    title: "Fixed-volume curvature-equilibrated spatial ensemble"
+    rank: 49
+    statement: "At every audited N3, a detailed-balance Metropolis-Hastings chain produces separated exact-volume curvature-weighted spatial triangulations and demonstrates internal-geometry relaxation relative to the original seed states."
+    requires:
+      - QCCG_FIXED_VOLUME_CURVATURE_THERMALIZATION
+      - QCCG_INTERNAL_GEOMETRY_RELAXATION_DIAGNOSTIC
+
+  - id: QCCG_CURVATURE_WEIGHTED_TIME_EXPLORATION_TOY
+    title: "Exploratory time-evolved curvature-weighted critical dynamics"
+    rank: 49
+    statement: "An independent-seed state-dependent simulation is run at the pre-time selected curvature/volume critical point to estimate kinetic and potential fit distributions before confirmation thresholds are fixed."
+    requires:
+      - QCCG_CURVATURE_WEIGHTED_TIME_EXPLORATION
+
+  - id: QCCG_CURVATURE_CRITICAL_LINE_TOY
+    title: "Curvature-volume zero-drift critical-line construction"
+    rank: 49
+    statement: "The audited Regge-weighted QCCG generator admits a numerically constructed zero-drift volume coupling for each preregistered negative curvature coupling and selects a candidate point before time-evolved confirmation."
+    requires:
+      - QCCG_CURVATURE_VOLUME_CRITICAL_LINE
+      - QCCG_CURVATURE_CRITICAL_CANDIDATE
+
+  - id: QCCG_REGGE_CURVATURE_REPAIR_TOY
+    title: "Regge-curvature weighted potential repair"
+    rank: 49
+    statement: "A local edge-deficit Regge weight with exact detailed balance improves the CDT-inspired curvature-potential diagnostic over the unweighted QCCG generator on a preregistered negative-coupling range; time-evolved coefficient stability is not claimed."
+    requires:
+      - QCCG_REGGE_SPATIAL_CURVATURE_WEIGHT
+      - QCCG_CURVATURE_WEIGHT_DETAILED_BALANCE
+      - QCCG_CURVATURE_POTENTIAL_RESOLUTION_SCAN
+
+  - id: QCCG_CDT_COEFFICIENT_BOOTSTRAP_DIAGNOSTIC
+    title: "Finite-block QCCG CDT coefficient inference has explicit bootstrap uncertainty"
+    kind: numerical
+    description: "Fresh curvature-equilibrated trajectories are bootstrapped to quantify uncertainty in mu/lambda and kinetic fits before interpreting block dependence as RG flow."
+  - id: QCCG_CDT_GENERATOR_FINITEBLOCK_OVERLAP_DIAGNOSTIC
+    title: "Finite-block coefficient confidence intervals are compared with the instantaneous equilibrium generator"
+    kind: diagnostic
+    description: "Tests whether at least one finite block is statistically compatible with the infinitesimal equilibrium-generator mu/lambda."
+  - id: QCCG_STATISTICAL_CDT_COEFFICIENT_CONFIRMATION
+    title: "QCCG CDT effective coefficients are confirmed with uncertainty-aware finite-block statistics"
+    kind: physics
+    description: "Fresh curvature-equilibrated trajectories require bootstrap compatibility with the independently determined instantaneous equilibrium generator at all audited time blocks."
+  - id: QCCG_POINT_ESTIMATE_SPREAD_GATE_REJECTED
+    title: "The raw cross-block point-estimate spread rule is rejected as an uncertainty-blind promotion criterion"
+    kind: negative-control
+    description: "A point-spread rule can reject statistically compatible finite-block estimates and is retained only as a methodological failure control."
+  - id: QCCG_PURE_POWER_FINITE_VOLUME_GATE_REJECTED
+    title: "Finite-volume pure-power p=1 diffusion fitting is rejected as a promotion criterion"
+    kind: negative-control
+    description: "The asymptotic CDT kinetic requirement is tested with Var_rate=D0*N3+D1 at finite volume; forcing an exact pure-power exponent p=1 can falsely reject linear diffusion when the finite-size intercept is nonzero."
+  - id: QCCG_CDT_AFFINE_KINETIC_DENOMINATOR
+    title: "The equilibrated QCCG volume generator matches the finite-volume CDT affine kinetic denominator"
+    kind: formal-numerical
+    description: "The local variance rate is fitted to D*(N3-n0), corresponding near n=m to the published CDT denominator Gamma*(n+m-2*n0)."
+  - id: QCCG_EXACT_P1_FINITE_VOLUME_GATE_REJECTED
+    title: "Exact finite-volume p=1 power-law fitting is rejected in favor of the published CDT affine denominator"
+    kind: negative-control
+    description: "A nonzero finite-volume n0 offset can shift a finite-range log-log exponent away from one even when the CDT affine kinetic law is satisfied."
+  - id: QCCG_CDT_EFFECTIVE_COEFFICIENT_MATCH
+    title: "QCCG large-volume effective Gamma, mu, lambda and omega are measured and stable"
+    kind: physics
+    description: "Requires stable QCCG kinetic data, a justified time/scale map, and independently measured potential/profile coefficients."
+    depends_on:
+      - QCCG_CDT_DIFFUSIVE_KINETIC_LIMIT
+      - QCCG_CDT_ACTION_STRUCTURAL_MATCH
+      - QCCG_CURVATURE_WEIGHTED_DYNAMICS
+      - QCCG_CDT_KINETIC_COEFFICIENT_STABILITY
+      - QCCG_CDT_TIME_UNIT_MAP
+      - QCCG_CDT_POTENTIAL_PROFILE_MATCH
+  - id: CDT_FRG_MAPPING_REFERENCE
+    title: "Published CDT-to-FRG scale-factor mapping is fixed as an external anchor"
+    kind: literature-anchor
+    description: "The 2024 CDT/FRG comparison supplies a dimensionless matching coordinate proportional to lambda_k*g_k; this is not QCCG evidence."
+  - id: CDT_UV_SCALING_REFERENCE
+    title: "Published CDT finite-size prescription for a putative UV lattice fixed point is fixed as an external anchor"
+    kind: literature-anchor
+    description: "The external CDT result gives a UV-scaling prescription while explicitly not proving the UV fixed point."
+  - id: CDT_FRG_DIRECT_EXPONENT_IDENTIFICATION_REJECTED
+    title: "Direct equality of raw lattice and FRG critical exponents is rejected without a scale map"
+    kind: negative-control
+    description: "The 2024 CDT/FRG analysis warns that the lattice correlation-length scale is not yet directly identified with the FRG scale k."
+  - id: REUTER_ESSENTIAL_TARGET_REFERENCE
+    title: "The 2026 essential Reuter fixed-point data are fixed as an external comparison target"
+    kind: literature-anchor
+    description: "The minimal-essential sixth-derivative FRG calculation provides a unique nontrivial fixed point with one relevant direction; it is not imported as QCCG evidence."
+  - id: QCCG_CDT_FRG_COORDINATES_MEASURED
+    title: "QCCG supplies stable CDT/FRG scale-factor matching coordinates along a controlled critical trajectory"
+    kind: physics
+    description: "Requires stable large-volume N4, Gamma, omega (or equivalent essential coordinates), finite-size scaling and a critical path."
+    depends_on:
+      - QCCG_CDT_EFFECTIVE_COEFFICIENT_MATCH
+      - CDT_FRG_MAPPING_REFERENCE
+      - CDT_UV_SCALING_REFERENCE
+      - CDT_FRG_DIRECT_EXPONENT_IDENTIFICATION_REJECTED
+  - id: QCCG_REUTER_ESSENTIAL_MATCH
+    title: "QCCG essential universality data match the Reuter fixed-point target"
+    kind: physics
+    description: "Requires a QCCG critical trajectory, a justified scale/universality map and compatible essential relevant-direction data."
+    depends_on:
+      - QCCG_CDT_FRG_COORDINATES_MEASURED
+      - REUTER_ESSENTIAL_TARGET_REFERENCE
+      - ESSENTIAL_CRITICAL_EXPONENT_MATCH
+
+  - id: RG_BRIDGE_OBSERVABLES_EXTRACTED
+    title: "QCCG bridge observables are extracted for continuum universality comparison"
+    kind: rg-analytic
+    description: "The audited parent supplies pole normalization, leading irrelevant lattice exponent and nonlinear cubic data."
+  - id: IR_TWO_POINT_MATCH_INSUFFICIENT
+    title: "Two-point IR matching alone is rejected as a universality criterion"
+    kind: negative-control
+    description: "Distinct nonlinear parents can share the same audited quadratic IR data."
+  - id: EXACT_FINITE_RG_BLOCKING_TOY
+    title: "An exact finite-state real-space RG blocking map is implemented"
+    kind: formal-numerical
+    description: "A fixed-geometry K-state Weyl/clock bond model is blocked exactly by convolution."
+  - id: SINGLE_COUPLING_RG_TRUNCATION_REJECTED
+    title: "A one-harmonic RG truncation is rejected as non-closed"
+    kind: negative-control
+    description: "Exact blocking generates higher harmonics beyond the initial cosine coupling."
+  - id: FULL_FINITE_HARMONIC_RG_CLOSURE_TOY
+    title: "The complete finite harmonic operator basis closes the exact blocking toy"
+    kind: formal-numerical
+    description: "All finite Z_K harmonics reconstruct the exact blocked effective action up to normalization."
+  - id: TRIVIAL_RG_FLOW_NEGATIVE_CONTROL
+    title: "The minimal fixed-geometry RG toy is detected to flow to the trivial IR fixed point"
+    kind: negative-control
+    description: "The exact 1D toy supplies no non-Gaussian gravitational fixed-point evidence."
+  - id: QCCG_NONPERTURBATIVE_RG_FLOW
+    title: "A nonperturbative QCCG coarse-graining flow for essential couplings is computed"
+    kind: physics
+    description: "Requires beta functions on the actual graph-changing constrained QCCG ensemble; single-coupling truncations are not accepted."
+    depends_on:
+      - EXACT_FINITE_RG_BLOCKING_TOY
+      - SINGLE_COUPLING_RG_TRUNCATION_REJECTED
+      - FULL_FINITE_HARMONIC_RG_CLOSURE_TOY
+      - TRIVIAL_RG_FLOW_NEGATIVE_CONTROL
+      - QCCG_CELLULATION_NONPERTURBATIVE_RG
+  - id: ESSENTIAL_CRITICAL_EXPONENT_MATCH
+    title: "QCCG essential UV critical exponents match the RFQG-5/asymptotic-safety target"
+    kind: physics
+    description: "Requires a controlled QCCG UV fixed point and essential relevant-direction spectrum."
+  - id: FESHBACH_COARSE_GRAINING_TOY
+    title: "Exact defect elimination produces a finite low-energy effective kernel"
+    kind: formal-numerical
+    description: "A finite P/Q sector toy satisfies the exact Feshbach/Schur complement identity."
+  - id: COARSE_OPERATOR_PROLIFERATION_DETECTED
+    title: "Exact coarse graining generates low-energy operators absent from the bare truncation"
+    kind: negative-control
+    description: "Defect elimination generates off-diagonal effective operators beyond the bare I+sigma_z ansatz."
+  - id: FINITE_EFFECTIVE_BASIS_CLOSURE_TOY
+    title: "The complete finite Hermitian operator basis closes the finite effective kernel"
+    kind: formal-numerical
+    description: "The full two-state Hermitian operator basis reconstructs the exact finite effective kernel."
+  - id: ENERGY_DEPENDENT_EFFECTIVE_KERNEL_DETECTED
+    title: "Exact coarse graining generates a frequency/energy-dependent effective kernel"
+    kind: formal-numerical
+    description: "The Feshbach kernel depends nontrivially on E, providing a finite analogue of momentum-dependent form factors."
+  - id: QCCG_GRAPH_CHANGING_EFFECTIVE_KERNEL
+    title: "The actual graph-changing QCCG ensemble yields a controlled momentum-dependent effective kernel"
+    kind: physics
+    description: "Requires applying the coarse/defect elimination to increasing constrained QCCG cellulation sectors."
+  - id: CELLULATION_FESHBACH_RG_TOY
+    title: "A finite cellulation-move/curvature sector admits exact pair-block coarse graining"
+    kind: formal-numerical
+    description: "A six-state move-graph toy is split into coarse pair blocks plus gapped intra-block defects and reduced exactly by Feshbach elimination."
+  - id: CELLULATION_RESTRICTED_RG_BASIS_REJECTED
+    title: "A narrow move-plus-curvature coarse operator basis is rejected"
+    kind: negative-control
+    description: "The exact coarse kernel cannot be represented by only identity, a simple coarse move Laplacian and one curvature diagonal."
+  - id: CELLULATION_FULL_OPERATOR_BASIS_CLOSURE_TOY
+    title: "The complete finite real-symmetric coarse operator basis closes the cellulation toy"
+    kind: formal-numerical
+    description: "The full finite coarse operator basis reconstructs the exact effective kernel at the audited energies."
+  - id: CELLULATION_ENERGY_DEPENDENT_KERNEL
+    title: "Cellulation coarse graining generates an energy-dependent effective kernel"
+    kind: formal-numerical
+    description: "Exact elimination of fine cellulation defects produces nontrivial energy dependence in the coarse kernel."
+  - id: QCCG_CELLULATION_NONPERTURBATIVE_RG
+    title: "A compatible nonperturbative RG flow is computed across increasing QCCG cellulation ensembles"
+    kind: physics
+    description: "Requires nested QCCG-generated cellulation ensembles, compatible block maps, generated-operator tracking and fixed-point/critical-exponent stability."
+  - id: AS_FIXED_POINT_MATCH
+    title: "QCCG coarse graining reaches the RFQG-5/asymptotic-safety universality class"
+    kind: physics
+    description: "Requires QCCG nonperturbative flow plus a controlled essential-universality match to the Reuter target."
+    depends_on:
+      - RG_BRIDGE_OBSERVABLES_EXTRACTED
+      - IR_TWO_POINT_MATCH_INSUFFICIENT
+      - QCCG_NONPERTURBATIVE_RG_FLOW
+      - QCCG_GRAPH_CHANGING_EFFECTIVE_KERNEL
+      - QCCG_REUTER_ESSENTIAL_MATCH
+  - id: PHYSICAL_MASSLESS_SPIN2_CONTINUUM
+    title: "A physical massless helicity-2 continuum sector is established"
+    kind: physics
+    description: "Requires derivation from the explicit parent, a Lorentzian manifold phase, common Lorentz cone, continuum gauge/BRST structure, physical unitarity, and an explicit physical spin-2 spectral identification."
+    depends_on:
+      - FULL_MICROSCOPIC_DERIVATION
+      - CONTINUUM_MANIFOLD_PHASE
+      - LORENTZ_UNIVERSALITY
+      - CONTINUUM_DIFFEO_BRST
+      - PHYSICAL_UNITARITY_SCALING_LIMIT
+  - id: SOFT_GRAVITON_UNIVERSALITY_TARGET
+    title: "Leading soft-graviton gauge consistency enforces universal coupling at the target continuum level"
+    kind: formal-numerical
+    description: "Universal coupling cancels the leading soft gauge variation by momentum conservation in the audited scattering target."
+  - id: SOFT_NONUNIVERSAL_COUPLING_REJECTED
+    title: "Species-dependent soft-graviton coupling fails a gauge-consistency negative control"
+    kind: negative-control
+    description: "A nonuniversal coupling assignment leaves a nonzero weighted momentum in the audited soft limit."
+  - id: UNIVERSAL_COUPLING_PHYSICAL
+    title: "QCCG physically realizes the soft-graviton universal coupling"
+    kind: physics
+    description: "Requires an actual physical massless spin-2 continuum S-matrix/soft limit, not only the conditional target theorem."
+    depends_on:
+      - SOFT_GRAVITON_UNIVERSALITY_TARGET
+      - SOFT_NONUNIVERSAL_COUPLING_REJECTED
+      - PHYSICAL_MASSLESS_SPIN2_CONTINUUM
+  - id: GR_IR_EFFECTIVE_ACTION
+    title: "The infrared physical effective action reproduces GR plus controlled corrections"
+    kind: physics
+    description: "Requires gauge-invariant continuum observables and the Einstein low-energy limit, not insertion of Einstein equations."
+  - id: STRONG_GRAVITY_CTP
+    title: "Real-time strong-gravity dynamics are controlled"
+    kind: physics
+    description: "Requires an in-in/CTP effective description for collapse or cosmology and causal physical observables."
+
+evidence:
+  - id: qccg-cdt-ergodicity-open
+    obligation: QCCG_CDT_MOVESET_ERGODICITY
+    status: OPEN
+    engine: model-spec
+    note: "Major local causal move types are now realized, but no scalable fixed-boundary connectivity/ergodicity theorem or exhaustive state-graph audit has been established."
+  - id: reciprocity-choice
+    obligation: GEOMETRIC_RECIPROCITY
+    status: MODEL_CHOICE
+    engine: model-spec
+    note: "Reciprocity is a microscopic dynamical principle, not derived from unitarity/locality/background independence."
+
+claims:
+  - id: QCCG_FINITE_WEYL_KINEMATICS
+    title: "Finite-Weyl microscopic kinematics"
+    rank: 10
+    statement: "The audited pilot has a consistent finite local Weyl kinematics and controlled small-phase local terms."
+    requires:
+      - FINITE_WEYL_ALGEBRA
+      - WEYL_QUADRATIC_LIMIT
+
+  - id: QCCG_D4_RECIPROCITY_TOY
+    title: "Conditional 4D reciprocity sector"
+    rank: 20
+    statement: "Given the declared reciprocity choice, the pilot algebraically selects D=4."
+    requires:
+      - FINITE_WEYL_ALGEBRA
+      - id: GEOMETRIC_RECIPROCITY
+        accept: [PASS, MODEL_CHOICE]
+      - D4_RECIPROCITY_ALGEBRA
+
+  - id: QCCG_QUADRATIC_TT_TOY
+    title: "Model-internal two-branch z=1 quadratic tensor phase"
+    rank: 30
+    statement: "Within the declared quadratic flat-sector pilot, two massless tensor branches exhibit z=1 finite-size scaling while declared defect sectors remain gapped."
+    requires:
+      - FINITE_WEYL_ALGEBRA
+      - WEYL_QUADRATIC_LIMIT
+      - TT_QUADRATIC_SPECTRUM
+      - FINITE_SIZE_GAP_SCALING
+      - DEFECT_GAP_STABILITY
+
+  - id: QCCG_PARENT_HESSIAN_TOY
+    title: "Explicit finite-qudit parent yields the audited quadratic phase"
+    rank: 40
+    statement: "One fixed finite-Weyl local parent Hamiltonian yields the audited quadratic tensor/defect Hessian without fitting the Hessian independently."
+    requires:
+      - FULL_MICROSCOPIC_DERIVATION
+      - TT_QUADRATIC_SPECTRUM
+      - FINITE_SIZE_GAP_SCALING
+      - DEFECT_GAP_STABILITY
+
+  - id: QCCG_BARE_COMMON_CONE_TOY
+    title: "Bare common-cone quadratic pilot"
+    rank: 45
+    statement: "Within the selected parent pilot, the audited tensor and probe-matter sectors share an isotropic bare cone and higher-derivative lattice violations are irrelevant; interacting RG protection is not claimed."
+    requires:
+      - id: COMMON_CAUSAL_PROPAGATOR
+        accept: [PASS, MODEL_CHOICE]
+      - BARE_SPATIAL_ISOTROPY
+      - LATTICE_LV_IRRELEVANT
+
+  - id: QCCG_QUADRATIC_UNITARY_SCALING_TOY
+    title: "Unitary free quadratic scaling pilot"
+    rank: 47
+    statement: "The finite parent is unitary and a fixed free band-limited quadratic sector has an isometric norm-preserving continuum scaling limit."
+    requires:
+      - FINITE_PARENT_UNITARITY
+      - QUADRATIC_SCALING_ISOMETRY
+
+  - id: QCCG_LINEARIZED_SPIN2_TARGET
+    title: "Consistent linearized spin-2 continuum target"
+    rank: 43
+    statement: "The audited continuum target has four linear first-class constraints and a rank-two TT sector; no claim is made that the microscopic parent generates the nonlinear gauge algebra."
+    requires:
+      - LINEARIZED_CONSTRAINT_ALGEBRA
+      - TT_PROJECTOR_RANK2
+
+  - id: QCCG_HDA_DESIGN_CONSTRAINT
+    title: "Nonlinear constraint design rule"
+    rank: 44
+    statement: "The audited program rejects a mutually commuting nonlinear Hamiltonian-projector completion and requires noncommuting structure-function closure for the next microscopic construction."
+    requires:
+      - HDA_NONABELIAN_TARGET
+      - COMMUTING_PROJECTOR_HDA_REJECTED
+
+  - id: QCCG_PACHNER_COMPOSITION_TOY
+    title: "Finite sequential Pachner-cobordism composition"
+    rank: 46
+    statement: "The audited local 4-simplex refinement blocks compose to a manifold-with-boundary with a tree-like attachment graph, while overgluing is rejected; strict global foliation remains open."
+    requires:
+      - PACHNER_COBORDISM_COMPOSITION_TOY
+      - PACHNER_COBORDISM_OVERGLUE_NEGATIVE_CONTROL
+
+  - id: QCCG_PACHNER_COBORDISM_TOY
+    title: "Local 4D Pachner cobordism architecture"
+    rank: 45
+    statement: "The audited spatial 1<->4 and 2<->3 Pachner transitions admit exact local 4-simplex cobordism blocks and complementary inverse moves; arbitrary global causal composition is not claimed."
+    requires:
+      - PACHNER_4SIMPLEX_COBORDISM_TOY
+      - PACHNER_COBORDISM_INVERSE_CONTROL
+
+  - id: QCCG_CDT_MOVE_INVARIANT_TOY
+    title: "Causal move-set f-vector invariant audit"
+    rank: 49
+    statement: "The realized local causal move templates have no unexpected component-wise modular f-vector invariant beyond fixed-boundary manifold identities; generic nonlocal invariants remain open."
+    requires:
+      - CDT_MOVE_INVARIANT_AUDIT
+      - CDT_BOUNDARY_MODULAR_INVARIANTS_EXPLAINED
+
+  - id: QCCG_SPATIAL_PACHNER_CONNECTIVITY
+    title: "Spatial-slice Pachner connectivity"
+    rank: 49
+    statement: "Using Pachner's theorem and the audited reversible 1<->4 and 2<->3 QCCG spatial move families, any two triangulations in the same closed PL 3-manifold slice class are connected by a finite QCCG spatial move sequence; no full 4D causal ergodicity is claimed."
+    requires:
+      - QCCG_SPATIAL_SLICE_PL_CONNECTIVITY
+
+  - id: QCCG_STATISTICAL_CDT_CONFIRMATION_TOY
+    title: "Uncertainty-aware CDT coefficient confirmation"
+    rank: 49
+    statement: "Fresh curvature-equilibrated QCCG time-block data are compared to the independently determined infinitesimal generator with bootstrap confidence intervals, while the obsolete point-spread rule is retained as a negative control."
+    requires:
+      - QCCG_STATISTICAL_CDT_COEFFICIENT_CONFIRMATION
+      - QCCG_POINT_ESTIMATE_SPREAD_GATE_REJECTED
+      - QCCG_PURE_POWER_FINITE_VOLUME_GATE_REJECTED
+
+  - id: QCCG_CDT_AFFINE_KINETIC_TOY
+    title: "CDT affine kinetic-denominator match"
+    rank: 49
+    statement: "On curvature-equilibrated QCCG slices, the infinitesimal volume-diffusion generator matches the finite-volume CDT kinetic form D*(N3-n0), while an exact finite-volume p=1 power-law requirement is rejected."
+    requires:
+      - QCCG_CDT_AFFINE_KINETIC_DENOMINATOR
+      - QCCG_EXACT_P1_FINITE_VOLUME_GATE_REJECTED
+
+  - id: QCCG_CDT_COEFFICIENT_UNCERTAINTY_TOY
+    title: "Bootstrap-resolved CDT coefficient diagnostic"
+    rank: 49
+    statement: "Finite-block QCCG CDT coefficient estimates carry explicit bootstrap intervals and are compared against the instantaneous equilibrium generator before any block dependence is promoted as physical RG running."
+    requires:
+      - QCCG_CDT_COEFFICIENT_BOOTSTRAP_DIAGNOSTIC
+
+  - id: QCCG_CDT_CONNECTIVITY_SCALING_TOY
+    title: "Finite-size constructive CDT connectivity scan"
+    rank: 49
+    statement: "The audited mixed local-move architecture remains a single fixed-boundary causal move-graph component through the preregistered finite patch depth, while removing one move direction splits the largest sector; generic ergodicity is not claimed."
+    requires:
+      - CDT_CONNECTIVITY_SCALING_TOY
+      - CDT_CONNECTIVITY_SCALING_NEGATIVE_CONTROL
+
+  - id: QCCG_CDT_MAJOR_MOVES_TOY
+    title: "Major local 4D causal move architectures"
+    rank: 47
+    statement: "The audited finite QCCG/CDT-style model realizes reversible local 2<->4, vertex-changing 2<->8, connectivity-changing 4<->6 and self-dual 3<->3 causal moves; global ergodicity is not claimed."
+    requires:
+      - CAUSAL_LOCAL_MOVESET_TOY
+      - CDT_MOVE4_VERTEX_REFINEMENT_TOY
+      - CDT_MOVE46_CONNECTIVITY_TOY
+      - CDT_MOVE33_SELFDUAL_TOY
+
+  - id: QCCG_CDT_SELFDUAL_MOVE_TOY
+    title: "Local self-dual 4D causal connectivity move"
+    rank: 46
+    statement: "The audited local 3->3 move changes timelike connectivity without changing simplex count while preserving the causal subcomplex boundary and rejecting wrong-time variants."
+    requires:
+      - CDT_MOVE33_SELFDUAL_TOY
+      - CDT_MOVE33_BOUNDARY_PRESERVATION
+      - CDT_MOVE33_TIME_SKIP_NEGATIVE_CONTROL
+
+  - id: QCCG_CDT_CONNECTIVITY_MOVE_TOY
+    title: "Local connectivity-changing 4D causal move architecture"
+    rank: 46
+    statement: "The audited local causal move changes spatial connectivity within a bounded time neighborhood while preserving the subcomplex boundary, manifold incidence and exact inverse signal."
+    requires:
+      - CDT_MOVE46_CONNECTIVITY_TOY
+      - CDT_MOVE46_BOUNDARY_PRESERVATION
+      - CDT_MOVE46_INVERSE_CONTROL
+      - CDT_MOVE46_TIME_SKIP_NEGATIVE_CONTROL
+
+  - id: QCCG_CDT_VERTEX_MOVE_TOY
+    title: "Local vertex-changing 4D causal refinement architecture"
+    rank: 46
+    statement: "The audited QCCG/CDT-style local move changes spatial vertex number within a bounded time neighborhood while preserving causal 4D manifold incidence and admitting an exact inverse; full move-set connectivity is not claimed."
+    requires:
+      - CDT_MOVE4_VERTEX_REFINEMENT_TOY
+      - CDT_MOVE4_BOUNDARY_PRESERVATION
+      - CDT_MOVE4_INVERSE_CONTROL
+      - CDT_MOVE4_TIME_SKIP_NEGATIVE_CONTROL
+
+  - id: QCCG_TIME_LOCAL_TRANSFER_TOY
+    title: "Finite time-local evolving-slice architecture"
+    rank: 45
+    statement: "The audited finite spatial Pachner state graph supports reversible nearest-time transfer between genuinely different slice geometries and rejects two-move time-nonlocal jumps; explicit 4D slab realization remains open."
+    requires:
+      - TIME_LOCAL_SLICE_TRANSFER_TOY
+      - TIME_NONLOCAL_JUMP_NEGATIVE_CONTROL
+
+  - id: QCCG_CAUSAL_COLUMN_REPAIR_DIAGNOSTIC
+    title: "Vertex-changing causal-column repair diagnostic"
+    rank: 44
+    statement: "The audited column repair adds reversible vertex-changing spatial Pachner dynamics while preserving the causal 4D architecture; if it still misses the broad 4D target, the failure is retained as evidence that time-independent columns are insufficient."
+    requires:
+      - CAUSAL_COLUMN_MOVESET_TOY
+      - CAUSAL_COLUMN_ENSEMBLE_SCAN_EXECUTED
+      - CAUSAL_COLUMN_REPAIR_INSUFFICIENT
+
+  - id: QCCG_CAUSAL_FIXED_VERTEX_DIAGNOSTIC
+    title: "Fixed-vertex causal-move limitation diagnostic"
+    rank: 44
+    statement: "The audited local causal 2<->4 ensemble is shown to preserve the microscopic vertex set; its failure to reach the finite 4D geometry target is retained as a move-set limitation rather than hidden."
+    requires:
+      - CAUSAL_MOVE_ENSEMBLE_SCAN_EXECUTED
+      - CAUSAL_FIXED_VERTEX_MOVESET_INSUFFICIENT
+
+  - id: QCCG_CAUSAL_ENSEMBLE_SCAN
+    title: "Finite reversible causal geometry ensemble scan"
+    rank: 44
+    statement: "A finite causal foliated move ensemble is sampled with explicit detailed-balance and topology/foliation controls; its measured dimension is retained as a finite-size result only."
+    requires:
+      - CAUSAL_MOVE_ENSEMBLE_SCAN_EXECUTED
+
+  - id: QCCG_CAUSAL_MOVE_ARCHITECTURE_TOY
+    title: "Finite reversible causal move architecture"
+    rank: 43
+    statement: "The audited finite foliated 4D complex admits local reversible 2<->4 Pachner moves and a Hermitian positive move-graph Hamiltonian, while time-skipping moves are rejected; scalable ergodicity is not claimed."
+    requires:
+      - CAUSAL_LOCAL_MOVESET_TOY
+      - CAUSAL_MOVE_HERMITIAN_TOY
+      - CAUSAL_MOVE_NEGATIVE_CONTROL
+
+  - id: QCCG_CDT_FINITE_CONNECTIVITY_TOY
+    title: "Finite mixed CDT move connectivity sector"
+    rank: 49
+    statement: "The audited connected 4D fixed-boundary toy combines vertex-changing, connectivity-changing and self-dual causal moves into one connected eight-state move graph; general ergodicity is not claimed."
+    requires:
+      - CDT_MIXED_MOVE_FIXED_BOUNDARY_CONNECTIVITY_TOY
+      - CDT_MOVE_FAMILY_CONNECTIVITY_CONTROL
+
+  - id: QCCG_GENERIC_LOCAL_SLAB_TOY
+    title: "Generic closed-S3 local slab builder stress test"
+    rank: 49
+    statement: "Constructive strict 1->4 and incidence-canonicalized 2->3 slab builders pass several grown closed-S3 triangulations and a label-gauge negative control; a universal proof for all triangulations is not claimed."
+    requires:
+      - GENERIC_LOCAL_SLAB_BUILDER_SCAN
+      - LOCAL_SLAB_LABEL_GAUGE_CONTROL
+
+  - id: QCCG_CLOSED_SLICE_SLAB_TOY
+    title: "Closed S3 embedding of both spatial Pachner slab generators"
+    rank: 49
+    statement: "The audited strict 1->4 and 2->3 local causal slabs each embed into a complete closed S3 slice-to-slice 4D manifold with no lateral external boundary; arbitrary triangulation histories are not claimed."
+    requires:
+      - CLOSED_SLICE_14_CAUSAL_SLAB_TOY
+      - CLOSED_SLICE_23_CAUSAL_SLAB_TOY
+      - CLOSED_SLICE_SLAB_COMPLETION_CONTROL
+
+  - id: QCCG_FORMAL_GLUE_LEMMA
+    title: "Formal slab-gluing incidence certificate"
+    rank: 33
+    statement: "The arithmetic incidence and adjacent-time bookkeeping used when gluing already-audited strict slabs is formally certified; this does not assert that any physical slab satisfies the hypotheses."
+    requires:
+      - STRICT_SLAB_GLUE_INCIDENCE_LEMMA
+
+  - id: QCCG_FORMAL_FINITE_HISTORY_GLUE
+    title: "Formal finite-history slab-gluing certificate"
+    rank: 34
+    statement: "For arbitrary finite histories satisfying the audited unit-incidence interface hypotheses, Lean certifies that every glued interface has incidence two and is not external; physical satisfaction of the hypotheses remains separate."
+    requires:
+      - STRICT_FINITE_HISTORY_GLUE_LEMMA
+
+  - id: QCCG_STRICT_SLAB_COMPOSITION_TOY
+    title: "Finite strict causal slab composition"
+    rank: 49
+    statement: "The audited strict 2->3 slab and its 3->2 time reverse compose on one shared intermediate triangulation into a connected three-slice causal 4D manifold; arbitrary mixed histories remain open."
+    requires:
+      - STRICT_23_ROUNDTRIP_COMPOSITION_TOY
+      - STRICT_SLAB_GLUE_NEGATIVE_CONTROL
+
+  - id: QCCG_CAUSAL_23_SLAB_TOY
+    title: "Strict causal spatial 2<->3 slab"
+    rank: 48
+    statement: "An explicit nine-simplex adjacent-slice 4D slab realizes the spatial 2<->3 Pachner transition with exact reversed 3->2 slab and single-simplex removal controls; arbitrary global composition is not claimed."
+    requires:
+      - CAUSAL_23_SPACETIME_SLAB_REALIZATION
+      - CAUSAL_23_SLAB_INVERSE_CONTROL
+      - CAUSAL_23_SLAB_COMPLETENESS_CONTROL
+
+  - id: QCCG_CAUSAL_14_SLAB_TOY
+    title: "Strict causal spatial 1<->4 slab"
+    rank: 47
+    statement: "The audited tetrahedron-time prism realizes a spatial 1<->4 refinement as an explicit adjacent-slice 4D causal manifold slab with exact inverse and wrong-time negative control; the spatial 2<->3 slab remains open."
+    requires:
+      - CAUSAL_14_SPACETIME_SLAB_TOY
+      - CAUSAL_14_SLAB_INVERSE_CONTROL
+      - CAUSAL_14_SLAB_TIME_SKIP_CONTROL
+
+  - id: QCCG_CAUSAL_FOLIATION_ARCHITECTURE_TOY
+    title: "Finite causal-foliation simplicial architecture"
+    rank: 42
+    statement: "A finite 4D simplicial cylinder with CDT-like adjacent-slice building blocks and correct manifold incidence is explicitly constructed, while time-skipping simplices are rejected; no causal critical dynamics is claimed."
+    requires:
+      - CAUSAL_FOLIATED_4D_ARCHITECTURE
+      - CAUSAL_FOLIATION_NEGATIVE_CONTROL
+
+  - id: QCCG_REGGE_WEIGHT_REPAIR_DIAGNOSTIC
+    title: "Finite Regge-weight repair negative control"
+    rank: 41
+    statement: "A reversible finite Regge-like Pachner scan preserves combinatorial 4-manifold topology but fails to produce a broad 4D metric plateau, forcing a stronger causal/critical cellulation dynamics."
+    requires:
+      - REGGE_WEIGHTED_PACHNER_SCAN_EXECUTED
+      - SIMPLE_REGGE_WEIGHT_REPAIR_INSUFFICIENT
+
+  - id: QCCG_PACHNER_MANIFOLD_FAILURE_DIAGNOSTIC
+    title: "Topological-4D versus metric-4D Pachner negative control"
+    rank: 41
+    statement: "Explicit 4D Pachner triangulations preserve combinatorial manifold topology but unweighted refinement/move ensembles fail broad 4D spectral and volume-growth targets, forcing a weighted critical cellulation dynamics."
+    requires:
+      - PACHNER_4D_MANIFOLD_TOPOLOGY_CONTROL
+      - UNWEIGHTED_PACHNER_DIMENSION_FAILURE_DETECTED
+      - PACHNER_MOVESET_REPAIR_INSUFFICIENT
+
+  - id: QCCG_CELLULATION_LIQUID_TOY
+    title: "Finite cellulation-liquid vacuum pilot"
+    rank: 35
+    statement: "The audited finite move graph has a unique uniform cellulation-superposition zero mode and detects disconnected-vacuum degeneracy."
+    requires:
+      - CELLULATION_LIQUID_ZERO_MODE
+      - CELLULATION_CONNECTIVITY_CONTROL
+
+  - id: QCCG_STRUCTURE_FUNCTION_TOY
+    title: "Finite constraint structure-function architecture toy"
+    rank: 46
+    statement: "A finite-dimensional QCCG-style toy realizes noncommuting operator-valued structure-function closure with Jacobi identity, a gapped common physical kernel, and a closure-failure negative control; GR HDA matching is not claimed."
+    requires:
+      - STRUCTURE_FUNCTION_CLOSURE_TOY
+      - CONSTRAINT_KERNEL_GAP_TOY
+      - STRUCTURE_FUNCTION_NEGATIVE_CONTROL
+
+  - id: QCCG_1D_HDA_CODE_TOY
+    title: "Smeared noncentral 1D HDA finite-Weyl code pilot"
+    rank: 49
+    statement: "A smooth low-Fourier finite-Weyl code subspace reproduces a smeared 1D HDA analogue with a nonconstant metric-like structure function, while near-cutoff states fail as an aliasing control; full 3+1 HDA matching is not claimed."
+    requires:
+      - ONE_D_HDA_STRUCTURE_FUNCTION_CODE_MATCH
+      - ONE_D_HDA_ALIASING_NEGATIVE_CONTROL
+
+  - id: QCCG_CODE_SUBSPACE_STRUCTURE_FUNCTION_TOY
+    title: "Emergent noncentral structure-function code-subspace pilot"
+    rank: 48
+    statement: "The audited finite-Weyl system cannot realize a global CCR, but a localized low-energy code subspace converges to a noncentral structure-function commutator while a boundary-localized negative control fails."
+    requires:
+      - FINITE_GLOBAL_CCR_NO_GO
+      - LOW_ENERGY_STRUCTURE_FUNCTION_CONVERGENCE
+      - STRUCTURE_FUNCTION_PATCH_CONTROL
+
+  - id: QCCG_MANIFOLD_DIAGNOSTIC_READY
+    title: "Calibrated 4D manifold-likeness detector"
+    rank: 34
+    statement: "The audited diagnostic identifies a known 4D periodic reference and rejects 3D/5D controls; no QCCG-generated manifold phase is claimed."
+    requires:
+      - MANIFOLD_DIAGNOSTIC_CALIBRATED
+      - MANIFOLD_DIMENSION_CONTROLS
+
+  - id: QCCG_INTERACTING_SCALING_ARCHITECTURE_TOY
+    title: "Interacting isometric scaling architecture toy"
+    rank: 47
+    statement: "A finite interacting constrained code subspace embeds isometrically into a coarse Hilbert space and a leakage perturbation is detected; no graph-changing QCCG scaling map is claimed."
+    requires:
+      - INTERACTING_CODE_INTERTWINER_TOY
+      - SCALING_LEAKAGE_NEGATIVE_CONTROL
+
+  - id: QCCG_REFINEMENT_COHERENCE_TOY
+    title: "Finite refinement-history coherence architecture"
+    rank: 47
+    statement: "Local code refinements are isometric and path-coherent in the audited finite toy, while a phase-inconsistent refinement is detected; coherence of the full QCCG move groupoid is not claimed."
+    requires:
+      - REFINEMENT_PATH_COHERENCE_TOY
+      - REFINEMENT_COHERENCE_NEGATIVE_CONTROL
+
+  - id: QCCG_GRAPH_CHANGE_SCALING_TOY
+    title: "Finite graph-change scaling isometry toy"
+    rank: 47
+    statement: "A finite coarse/refined cellulation toy preserves logical information through an exact physical-subspace graph-change isometry and detects an incorrect leaking refinement map."
+    requires:
+      - GRAPH_CHANGE_INTERTWINER_TOY
+      - GRAPH_CHANGE_LEAKAGE_NEGATIVE_CONTROL
+
+  - id: QCCG_EMERGENT_MASSLESS_SPIN2
+    title: "Microscopically emergent physical massless spin-2 continuum"
+    rank: 50
+    statement: "A fully explicit QCCG parent Hamiltonian has a physical continuum containing only the required massless helicity-2 gravitational sector."
+    requires:
+      - PHYSICAL_MASSLESS_SPIN2_CONTINUUM
+
+  - id: QCCG_GENERIC_NONLINEAR_PARENT_TOY
+    title: "Finite-Weyl parent with stable generic cubic self-interaction"
+    rank: 48
+    statement: "The audited parent has a stable weak-coupling cubic collective interaction that leaves the free quadratic spectrum unchanged; GR vertex matching is not claimed."
+    requires:
+      - CUBIC_VERTEX_OBSTRUCTION_DETECTED
+      - GENERIC_CUBIC_INTERACTION_REPAIR
+      - CUBIC_VACUUM_STABILITY_CONTROL
+
+  - id: QCCG_RG_BRIDGE_DATA_TOY
+    title: "QCCG continuum-bridge observable package"
+    rank: 49
+    statement: "The audited parent exposes explicit pole, irrelevant-exponent and cubic observables for a future QCCG/RFQG universality test, and rejects two-point IR matching as sufficient evidence."
+    requires:
+      - RG_BRIDGE_OBSERVABLES_EXTRACTED
+      - IR_TWO_POINT_MATCH_INSUFFICIENT
+
+  - id: QCCG_CUBIC_WARD_LIMIT_DIAGNOSTIC
+    title: "On-shell cubic Ward underdetermination diagnostic"
+    rank: 41
+    statement: "The audited on-shell three-point pure-gauge test is explicitly shown to be too weak to determine the relative coefficients of the two Gamma-Gamma cubic structures, forcing an off-shell or four-point selector."
+    requires:
+      - CUBIC_ONSHELL_WARD_UNDERDETERMINATION_DETECTED
+
+  - id: QCCG_GR_CUBIC_WARD_TARGET
+    title: "Calibrated GR three-graviton Ward target"
+    rank: 42
+    statement: "The Einstein-Hilbert cubic target has been calibrated at selected complex on-shell three-point kinematics: a physical helicity amplitude is nonzero and pure-gauge polarization replacements vanish."
+    requires:
+      - GR_CUBIC_WARD_KINEMATIC_CONTROL
+      - GR_CUBIC_GAUGE_REPLACEMENT_CONTROL
+
+  - id: QCCG_CUBIC_STRESS_TOY
+    title: "Multi-kinematics tensor-cubic Ward stress"
+    rank: 49
+    statement: "The engineered finite-Weyl tensor cubic survives the audited set of independent complex on-shell three-point configurations; this remains a finite stress test rather than a full Ward/RG derivation."
+    requires:
+      - QCCG_CUBIC_MULTI_KINEMATICS_STRESS
+
+  - id: QCCG_LATTICE_WARD_SCALING_TOY
+    title: "Controlled continuum restoration of lattice cubic Ward kinematics"
+    rank: 49
+    statement: "The symmetric lattice derivative has a generic O(a^2) momentum-additivity/Ward defect, while a forward difference is only O(a); exact finite-spacing diffeomorphism invariance is not claimed."
+    requires:
+      - LATTICE_WARD_RESIDUAL_OA2
+      - FORWARD_DIFFERENCE_WARD_OA_NEGATIVE_CONTROL
+
+  - id: QCCG_CUBIC_OPERATOR_LIMIT_TOY
+    title: "Operator-level finite-Weyl cubic continuum limit"
+    rank: 49
+    statement: "At cubic field order the finite-Weyl coordinate is exact and the symmetric-derivative h(dh)(dh) kernel differs from continuum only at O(a^2); microscopic RG selection of the EH coefficients remains open."
+    requires:
+      - FINITE_WEYL_CUBIC_COEFFICIENT_EXACT
+      - TENSOR_CUBIC_OPERATOR_CONTINUUM_OA2
+      - TENSOR_CUBIC_FORWARD_OA_NEGATIVE_CONTROL
+
+  - id: QCCG_SELECTED_TENSOR_CUBIC_TOY
+    title: "Selected-kinematics finite-Weyl tensor cubic match"
+    rank: 49
+    statement: "An explicit finite-Weyl tensor cubic construction reproduces the calibrated EH three-point target on the audited complex on-shell kinematics while lattice pure-gauge replacements vanish; full nonlinear Ward/RG derivation is not claimed."
+    requires:
+      - QCCG_TENSOR_CUBIC_VERTEX_CONSTRUCTED
+      - QCCG_CUBIC_SELECTED_WARD_MATCH
+
+  - id: QCCG_DERIVATIVE_CUBIC_TOY
+    title: "Derivative-cubic finite-Weyl repair"
+    rank: 48
+    statement: "The audited nonlinear parent replaces a non-derivative cubic proxy by a link-based finite-Weyl interaction whose continuum leading term is field-times-two-derivatives without changing the quadratic Hessian."
+    requires:
+      - NONDERIVATIVE_CUBIC_MISMATCH_DETECTED
+      - DERIVATIVE_CUBIC_REPAIR
+
+  - id: QCCG_CELLULATION_RG_ARCHITECTURE_TOY
+    title: "Finite cellulation-sector exact coarse-graining architecture"
+    rank: 49
+    statement: "Exact coarse graining of a finite move/curvature cellulation toy rejects a narrow coarse basis, closes in the full finite operator basis and generates an energy-dependent kernel; no continuum cellulation RG flow is claimed."
+    requires:
+      - CELLULATION_FESHBACH_RG_TOY
+      - CELLULATION_RESTRICTED_RG_BASIS_REJECTED
+      - CELLULATION_FULL_OPERATOR_BASIS_CLOSURE_TOY
+      - CELLULATION_ENERGY_DEPENDENT_KERNEL
+
+  - id: QCCG_EXACT_RG_ARCHITECTURE_TOY
+    title: "Exact finite-Weyl RG architecture toy"
+    rank: 49
+    statement: "Exact blocking rejects a one-coupling truncation, demonstrates closure in the full finite harmonic basis, and correctly identifies the minimal fixed-geometry toy as flowing to a trivial IR fixed point rather than an asymptotic-safety fixed point."
+    requires:
+      - EXACT_FINITE_RG_BLOCKING_TOY
+      - SINGLE_COUPLING_RG_TRUNCATION_REJECTED
+      - FULL_FINITE_HARMONIC_RG_CLOSURE_TOY
+      - TRIVIAL_RG_FLOW_NEGATIVE_CONTROL
+
+  - id: QCCG_EFFECTIVE_KERNEL_TOY
+    title: "Finite QCCG coarse-graining form-factor architecture toy"
+    rank: 49
+    statement: "Exact finite defect elimination generates operator proliferation and a genuinely energy-dependent effective kernel, while the complete finite Hermitian basis closes the toy."
+    requires:
+      - FESHBACH_COARSE_GRAINING_TOY
+      - COARSE_OPERATOR_PROLIFERATION_DETECTED
+      - FINITE_EFFECTIVE_BASIS_CLOSURE_TOY
+      - ENERGY_DEPENDENT_EFFECTIVE_KERNEL_DETECTED
+
+  - id: QCCG_RFQG_UNIVERSALITY
+    title: "QCCG realizes the RFQG-5 continuum universality class"
+    rank: 60
+    statement: "QCCG coarse graining reaches the same physical Lorentzian UV-complete universality class audited by RFQG-5."
+    requires:
+      - AS_FIXED_POINT_MATCH
+      - CONTINUUM_DIFFEO_BRST
+      - PHYSICAL_UNITARITY_SCALING_LIMIT
+
+  - id: QCCG_SOFT_UNIVERSALITY_TARGET
+    title: "Conditional soft-graviton universality target"
+    rank: 42
+    statement: "At the target massless spin-2 continuum level, universal coupling satisfies the audited leading soft gauge-consistency condition while a nonuniversal assignment fails."
+    requires:
+      - SOFT_GRAVITON_UNIVERSALITY_TARGET
+      - SOFT_NONUNIVERSAL_COUPLING_REJECTED
+
+  - id: QCCG_GR_IR
+    title: "QCCG/RFQG yields general relativity in the infrared"
+    rank: 70
+    statement: "The continuum physical effective action reproduces GR in the infrared with controlled corrections."
+    requires:
+      - AS_FIXED_POINT_MATCH
+      - GR_IR_EFFECTIVE_ACTION
+      - CONTINUUM_DIFFEO_BRST
+      - PHYSICAL_UNITARITY_SCALING_LIMIT
+
+  - id: QCCG_STRONG_GRAVITY
+    title: "QCCG/RFQG controlled strong-gravity dynamics"
+    rank: 80
+    statement: "The unified theory supplies a controlled causal real-time strong-gravity evolution."
+    requires:
+      - AS_FIXED_POINT_MATCH
+      - GR_IR_EFFECTIVE_ACTION
+      - CONTINUUM_DIFFEO_BRST
+      - PHYSICAL_UNITARITY_SCALING_LIMIT
+      - STRONG_GRAVITY_CTP
