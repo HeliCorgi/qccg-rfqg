@@ -90,6 +90,21 @@ def n0(S):
 def allowed_event_lists(S):
     n = len(S)
     c14, c41, c23, c32 = tev.event_lists(S)
+
+    # The legacy 3->2 candidate generator checks the local star but can admit
+    # a rare move whose global face incidence is not a closed 3-manifold.
+    # A physical QCCG move is required to stay inside the audited manifold
+    # sector, so filter those candidates before assigning continuous-time
+    # rates.  Apply the same explicit guard to 2->3 for symmetry.
+    c23 = [
+        c for c in c23
+        if qslice.manifold(qslice.apply23(S, c))
+    ]
+    c32 = [
+        c for c in c32
+        if qslice.manifold(qslice.apply32(S, c))
+    ]
+
     if n + 3 > VOLUME_MAX:
         c14 = []
     if n - 3 < VOLUME_MIN:
