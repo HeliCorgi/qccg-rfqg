@@ -1,0 +1,43 @@
+name: QCCG finite-time equilibrium transfer
+
+on:
+  pull_request:
+    paths:
+      - "qccg/run_qccg_finite_time_equilibrium_transfer.py"
+      - "qccg/run_qccg_symmetric_transfer_extraction.py"
+      - "qccg/run_qccg_curvature_weighted_time_exploration.py"
+      - "qccg/theorygate.yaml"
+      - "requirements.txt"
+      - ".github/workflows/qccg-finite-time-transfer.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  transfer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install -r requirements.txt
+      - name: Run direct finite-time two-slice extraction
+        run: |
+          mkdir -p artifacts/qccg-finite-time-transfer
+          python qccg/run_qccg_finite_time_equilibrium_transfer.py \
+            --out artifacts/qccg-finite-time-transfer/evidence.json
+      - name: Validate TheoryGate model
+        run: theorygate validate qccg/theorygate.yaml
+      - name: Promote only the blocked transfer diagnostic
+        run: |
+          theorygate check qccg/theorygate.yaml \
+            --evidence artifacts/qccg-finite-time-transfer/evidence.json \
+            --require QCCG_BLOCK3_TRANSFER_DIAGNOSTIC_TOY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qccg-finite-time-equilibrium-transfer
+          path: artifacts/qccg-finite-time-transfer/

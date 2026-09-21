@@ -956,10 +956,31 @@ obligations:
     title: "A reversible-projection mesoscopic transfer kernel approaches the CDT finite-volume form"
     kind: formal-numerical
     description: "Across preregistered increasing time blocks, the first block satisfying CDT fit quality, kinetic normalization and positive delta/lambda is recorded as a diagnostic only."
+  - id: QCCG_FINITE_TIME_EQUILIBRIUM_TRAJECTORY
+    title: "A long curvature-weighted equilibrium QCCG trajectory explores the finite volume window"
+    kind: numerical
+    description: "Requires burn-in, manifold-preserving local moves, gauge-randomized vertex labels and broad volume occupancy."
+  - id: QCCG_HIDDEN_N0_COARSE_VARIABLE_DIAGNOSTIC
+    title: "A hidden N0/curvature coordinate is observed at fixed N3"
+    kind: diagnostic
+    description: "Multiple N0 values at the same N3 directly demonstrate geometry information omitted by the instantaneous N3-only reduction."
+  - id: QCCG_PERIOD3_VOLUME_LATTICE_ARTIFACT
+    title: "A period-3 finite-volume artifact is detected in the raw N3 equilibrium trajectory"
+    kind: negative-control
+    description: "The microscopic DeltaN3=3 and DeltaN3=1 move families produce a strong three-residue modulation that obstructs the raw CDT transfer fit."
+  - id: QCCG_BLOCK3_TRANSFER_DIAGNOSTIC
+    title: "One width-3 real-space volume blocking step yields a CDT-like finite-time kernel"
+    kind: formal-numerical
+    description: "Using the independently measured affine n0, the blocked equilibrium two-slice kernel is tested for time-reversal symmetry and the finite-volume CDT kinetic/potential form."
   - id: QCCG_FINITE_TIME_EQUILIBRIUM_TRANSFER_EXTRACTION
     title: "A direct finite-time equilibrium QCCG two-slice transfer kernel is extracted without an O(1) reversible projection"
     kind: physics
-    description: "Requires direct equilibrium finite-time pair data or an enlarged coarse state including hidden N0/curvature followed by controlled elimination."
+    description: "The unblocked N3 kernel must itself satisfy the CDT transfer test, or the blocking flow must be shown to converge with stable physical coefficients rather than only one diagnostic blocking step."
+    depends_on:
+      - QCCG_FINITE_TIME_EQUILIBRIUM_TRAJECTORY
+      - QCCG_HIDDEN_N0_COARSE_VARIABLE_DIAGNOSTIC
+      - QCCG_PERIOD3_VOLUME_LATTICE_ARTIFACT
+      - QCCG_BLOCK3_TRANSFER_DIAGNOSTIC
   - id: QCCG_CDT_SYMMETRIC_TRANSFER_EXTRACTION
     title: "A coarse symmetric QCCG transfer kernel is extracted and directly fitted to the CDT action"
     kind: physics
@@ -1279,6 +1300,16 @@ claims:
     requires:
       - QCCG_CDT_GENERATOR_TO_TRANSFER_KINETIC_MAP
       - QCCG_CDT_NAIVE_POTENTIAL_IDENTIFICATION_REJECTED
+
+  - id: QCCG_BLOCK3_TRANSFER_DIAGNOSTIC_TOY
+    title: "Blocked finite-time CDT transfer diagnostic"
+    rank: 49
+    statement: "The raw equilibrium N3 two-slice kernel fails the CDT fit and shows a strong period-3 lattice artifact, while one width-3 real-space blocking step sharply reduces the time-reversal asymmetry and yields a CDT-like finite-volume transfer fit using the independently measured affine n0. This is evidence for an irrelevant lattice artifact candidate, not a continuum transfer derivation."
+    requires:
+      - QCCG_FINITE_TIME_EQUILIBRIUM_TRAJECTORY
+      - QCCG_HIDDEN_N0_COARSE_VARIABLE_DIAGNOSTIC
+      - QCCG_PERIOD3_VOLUME_LATTICE_ARTIFACT
+      - QCCG_BLOCK3_TRANSFER_DIAGNOSTIC
 
   - id: QCCG_MESOSCOPIC_TRANSFER_DIAGNOSTIC_TOY
     title: "Mesoscopic CDT transfer diagnostic after rejecting instantaneous N3 Markov closure"
